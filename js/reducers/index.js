@@ -1,2 +1,1 @@
-export {default as Sample} from './Sample';
-export {default as Module} from './Module';
+export {default as Snip} from './Snip';
