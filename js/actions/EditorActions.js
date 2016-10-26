@@ -1,5 +1,5 @@
-import {HTML_CHANGED} from '../constants/ActionTypes';
-import {CSS_CHANGED} from '../constants/ActionTypes';
+import { HTML_CHANGED } from '../constants/ActionTypes';
+import { CSS_CHANGED } from '../constants/ActionTypes';
 
 export function changeHTML(html) {
   return {

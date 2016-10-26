@@ -9,8 +9,10 @@ var devFlagPlugin = new webpack.DefinePlugin({
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
+    'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/only-dev-server',
     'eventsource-polyfill',
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    'react-hot-loader/patch',
     './js/index.js'
   ],
   output: {
@@ -29,7 +31,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') }
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!cssnext-loader') }
     ]
   },
   resolve: {

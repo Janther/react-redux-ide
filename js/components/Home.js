@@ -1,20 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as SnipActions from '../actions/SnipActions';
-import styles from '../../css/app.css';
+import React, { PropTypes } from 'react';
+import CssEditor from '../containers/CssEditor'
 
-class Home extends Component {
-  render() {
-    const {title, dispatch} = this.props;
-    const actions = bindActionCreators(SnipActions, dispatch);
-    return (
-      <main>
-        <textarea onChange={e => actions.changeHTML('html')} />
-        <textarea onChange={e => actions.changeCSS('css')} />
-      </main>
-    );
-  }
-}
+const Home = () => (
+  <div>
+    <CssEditor />
+  </div>
+)
 
-export default connect(state => state.Snip)(Home)
+export default Home
