@@ -4,8 +4,9 @@ import { changeCSS } from '../actions/EditorActions';
 import Editor from '../components/Editor';
 
 const mapStateToProps = (state) => {
+  let css_snip = state.snip.css_snip
   return {
-    css: state.css
+    text: css_snip.css
   }
 }
 

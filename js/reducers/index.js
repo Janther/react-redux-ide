@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import Snip from './Snip';
+import snip from './snip';
 
 const rootReducer = combineReducers({
-  Snip
+  snip
 });
 
 export default rootReducer;

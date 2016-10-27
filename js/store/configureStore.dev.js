@@ -6,12 +6,13 @@ import DevTools from '../containers/DevTools';
 
 const enhancer = compose(
   applyMiddleware(thunk),
-  DevTools.instrument(),
+  // DevTools.instrument(),
   persistState(
     window.location.href.match(
       /[?&]debug_session=([^&#]+)\b/
     )
-  )
+  ),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default function configureStore(initialState) {
