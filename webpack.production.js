@@ -17,11 +17,25 @@ module.exports = {
   ],
   module: {
     loaders: [
+      { test: /\.cson$/, loader: "cson" },
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') }
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!postcss-loader') }
     ]
   },
+  resolveLoader: {
+    root: path.join(__dirname, "node_modules")
+  },
   resolve: {
-    extensions: ['', '.js', '.json']
+    extensions: ['', '.js', '.json'],
+    alias: {
+      oniguruma: 'onigurumajs'
+    }
+  },
+  postcss: function (webpack) {
+    return [
+      require("postcss-import")({ addDependencyTo: webpack }),
+      require("postcss-url")(),
+      require("postcss-cssnext")()
+    ]
   }
 };

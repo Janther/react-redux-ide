@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import styles from './Editor.css';
+import Line from './Line';
 
 const Editor = ({ text, onChange }) => (
   <div>
@@ -7,7 +8,7 @@ const Editor = ({ text, onChange }) => (
               onChange={e => { onChange(e.target.value) }} />
     <div className={styles.container}>
       {text.split("\n").map(function(line, index) {
-        return (index === 0) ? line : [<br/>, line]
+        return <Line text={line} key={index} />
       })}
     </div>
   </div>

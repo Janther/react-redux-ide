@@ -1,6 +1,5 @@
 import * as ActionTypes from '../constants/ActionTypes';
 
-
 const cssSnip = function(state = { css: '' }, action = '') {
   switch (action.type) {
     case ActionTypes.CSS_CHANGED:

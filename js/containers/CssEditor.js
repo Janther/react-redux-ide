@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeCSS } from '../actions/EditorActions';
+import { cssSnip } from '../selectors/snipSelector';
 import Editor from '../components/Editor';
 
 const mapStateToProps = (state) => {
-  let css_snip = state.snip.css_snip
   return {
-    text: css_snip.css
+    text: cssSnip(state)
   }
 }
 
