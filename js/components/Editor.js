@@ -1,12 +1,13 @@
 import React, { PropTypes } from 'react'
 import styles from './Editor.css';
+import atom from './Editor.less';
 import Line from './Line';
 
 const Editor = ({ text, onChange }) => (
   <div>
     <textarea className={styles.text}
               onChange={e => { onChange(e.target.value) }} />
-    <div className={styles.container}>
+    <div className={[styles.container, atom['atom-text-editor']].join(' ')}>
       {text.split("\n").map(function(line, index) {
         return <Line text={line} key={index} />
       })}

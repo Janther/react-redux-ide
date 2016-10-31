@@ -8,14 +8,14 @@ export const registry = new GrammarRegistry();
 export const grammar = registry.createGrammar(css_cson);
 registry.addGrammar(grammar);
 
-let { line, tags } = grammar.tokenizeLine(".hello {\n  color: #AAA;\n}");
-let tokens = registry.decodeTokens(line, tags);
-//
-for (let i = 0, len = tokens.length; i < len; i++) {
-  let { value, scopes } = tokens[i];
-  // console.log(tokens[i]);
-  console.log("Token text: '" + value + "' with scopes: " + scopes);
-}
+// let { line, tags } = grammar.tokenizeLine(".hello {\n  color: #AAA;\n}");
+// let tokens = registry.decodeTokens(line, tags);
+// //
+// for (let i = 0, len = tokens.length; i < len; i++) {
+//   let { value, scopes } = tokens[i];
+//   // console.log(tokens[i]);
+//   console.log("Token text: '" + value + "' with scopes: " + scopes);
+// }
 
 const getVisibleTodosFilteredByKeyword = createSelector(
   cssSnip,
