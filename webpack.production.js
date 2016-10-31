@@ -2,6 +2,9 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var CssPlugin = new ExtractTextPlugin('app.css');
+var LessPlugin = new ExtractTextPlugin('syntax.css');
+
 module.exports = {
   entry: [
     './js/index.js'
@@ -13,13 +16,15 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('app.css')
+    CssPlugin,
+    LessPlugin
   ],
   module: {
     loaders: [
       { test: /\.cson$/, loader: "cson" },
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!postcss-loader') }
+      { test: /\.css$/, loader: CssPlugin.extract('css-loader?module!postcss-loader') },
+      { test: /\.less$/, loader: LessPlugin.extract('css-loader?module!postcss-loader!less-loader') }
     ]
   },
   resolveLoader: {

@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import CssEditor from '../containers/CssEditor'
+import MetaEditor from '../containers/MetaEditor'
 
 const Home = () => (
   <div>
-    <CssEditor />
+    <MetaEditor />
   </div>
 )
 

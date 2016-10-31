@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import snip from './snip';
+import editor from './editor';
 
 const rootReducer = combineReducers({
-  snip
+  editor
 });
 
 export default rootReducer;

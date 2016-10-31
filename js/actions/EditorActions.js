@@ -1,16 +1,8 @@
-import { HTML_CHANGED } from '../constants/ActionTypes';
-import { CSS_CHANGED } from '../constants/ActionTypes';
+import { EDITOR_TEXT_CHANGED } from '../constants/ActionTypes';
 
-export function changeHTML(html) {
+export function changeText(text) {
   return {
-    type: HTML_CHANGED,
-    html
-  }
-}
-
-export function changeCSS(css) {
-  return {
-    type: CSS_CHANGED,
-    css
+    type: EDITOR_TEXT_CHANGED,
+    text
   }
 }

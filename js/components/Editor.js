@@ -3,20 +3,20 @@ import styles from './Editor.css';
 import atom from './Editor.less';
 import Line from './Line';
 
-const Editor = ({ text, onChange }) => (
+const Editor = ({ tree, onChange }) => (
   <div>
     <textarea className={styles.text}
               onChange={e => { onChange(e.target.value) }} />
     <div className={[styles.container, atom['atom-text-editor']].join(' ')}>
-      {text.split("\n").map(function(line, index) {
-        return <Line text={line} key={index} />
+      {tree.map(function(line, index) {
+        return <Line tree={line} key={index} />
       })}
     </div>
   </div>
 )
 
 Editor.propTypes = {
-  text: PropTypes.string,
+  tree: PropTypes.array,
   onChange: PropTypes.func.isRequired
 }
 

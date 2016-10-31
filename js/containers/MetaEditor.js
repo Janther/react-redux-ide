@@ -1,26 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeCSS } from '../actions/EditorActions';
-import { cssSnip } from '../selectors/snipSelector';
+import { changeText } from '../actions/EditorActions';
 import Editor from '../components/Editor';
 
 const mapStateToProps = (state) => {
   return {
-    text: cssSnip(state)
+    tree: state.editor.tree
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChange: (css) => {
-      dispatch(changeCSS(css))
+    onChange: (text) => {
+      dispatch(changeText(text));
     }
   }
 }
 
-const CssEditor = connect(
+const MetaEditor = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Editor)
 
-export default CssEditor
+export default MetaEditor
