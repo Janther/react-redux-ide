@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import styles from './Editor.css';
+import styles from './index.css';
 import Token from './Token';
 
 const Line = ({ tree }) => (

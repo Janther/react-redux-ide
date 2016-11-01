@@ -47,9 +47,10 @@ const buildBranch = function (branch, token, newLine = false) {
 }
 
 const shouldNotRender = function(value, values, valueIndex, tokens, tokenIndex) {
-  let isNotTheFirstLine = valueIndex == 0 && tokenIndex != 0;
-  let isNotTheLastLine = valueIndex == values.length - 1 && tokenIndex != tokens.length - 1;
-  return value == '' && (isNotTheFirstLine || isNotTheLastLine);
+  let isEmptyValue = value == '';
+  let isNotTheFirstLine = tokenIndex != 0 && valueIndex == 0;
+  let isNotTheLastLine = tokenIndex != tokens.length - 1 && valueIndex == values.length - 1;
+  return isEmptyValue && (isNotTheFirstLine || isNotTheLastLine);
 }
 
 const buildTokenTree = function(text, grammar) {
@@ -76,7 +77,13 @@ const buildTokenTree = function(text, grammar) {
   return rootBranch;
 }
 
-const editor = function(state = { text: '', grammar: cssGrammar, tree: [] }, action = '') {
+const defaultState = {
+  text: '',
+  grammar: cssGrammar,
+  tree: buildTokenTree('', cssGrammar)
+}
+
+const editor = function(state = defaultState, action = '') {
   switch (action.type) {
     case ActionTypes.EDITOR_TEXT_CHANGED:
       let regularExpresionNewLines=/\r\n|\n\r|\n|\r/g;

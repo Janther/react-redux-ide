@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
-import styles from './Editor.css';
-import atom from './Editor.less';
+import styles from './index.css';
+import atom from './index.less';
 import Line from './Line';
 
 const Editor = ({ tree, onChange }) => (
