@@ -1,14 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
+    'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     'eventsource-polyfill',
-    'react-hot-loader/patch',
     './js/index.js'
   ],
   output: {
@@ -18,10 +17,15 @@ module.exports = {
     hot: true
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('development'),
+        'BABEL_ENV': JSON.stringify('development')
+      }
+    }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('app.css')
+    new webpack.NoErrorsPlugin()
   ],
   module: {
     loaders: [
