@@ -7,7 +7,7 @@ var LessPlugin = new ExtractTextPlugin('syntax.css');
 
 module.exports = {
   entry: [
-    './js/index.js'
+    './src/index.js'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
