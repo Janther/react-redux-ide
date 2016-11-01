@@ -46,17 +46,31 @@ const buildBranch = function (branch, token, newLine = false) {
   ]
 }
 
+const shouldNotRender = function(value, values, valueIndex, tokens, tokenIndex) {
+  let isNotTheFirstLine = valueIndex == 0 && tokenIndex != 0;
+  let isNotTheLastLine = valueIndex == values.length - 1 && tokenIndex != tokens.length - 1;
+  return value == '' && (isNotTheFirstLine || isNotTheLastLine);
+}
+
 const buildTokenTree = function(text, grammar) {
   let { line, tags } = grammar.tokenizeLine(text);
   let tokens = grammarRegistry.decodeTokens(line, tags);
   let rootBranch = [];
-  let currentLine = 0;
-  tokens.forEach(function(token){
+  let isNewLine = false;
+  tokens.forEach(function(token, tokenIndex) {
     let { value, scopes } = token;
-    value.split("\n").forEach(function(splittedValue, index) {
+    let splittedValues = value.split("\n");
+    splittedValues.forEach(function(splittedValue, valueIndex) {
+      if (shouldNotRender(splittedValue,
+                          splittedValues, valueIndex,
+                          tokens, tokenIndex)) {
+        isNewLine = true;
+        return;
+      }
       rootBranch = buildBranch(rootBranch,
                                { value: splittedValue, scopes: scopes },
-                               index > 0);
+                               valueIndex > 0 || isNewLine);
+      isNewLine = false;
     });
   });
   return rootBranch;
