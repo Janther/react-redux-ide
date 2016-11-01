@@ -12,5 +12,4 @@ Line.propTypes = {
   tree: PropTypes.object.isRequired
 }
 
-
 export default Line

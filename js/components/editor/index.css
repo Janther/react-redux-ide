@@ -18,6 +18,7 @@
 
 .line {
   white-space: pre;
+  min-height: 21px;
 }
 
 textarea {
