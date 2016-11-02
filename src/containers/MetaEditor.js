@@ -5,7 +5,7 @@ import Editor from '../components/Editor/index';
 
 const mapStateToProps = (state) => {
   return {
-    tree: state.editor.tree
+    lines: state.editor.lines
   }
 }
 

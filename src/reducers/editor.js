@@ -1,7 +1,7 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import { cssGrammar, grammarRegistry } from '../utils/grammars';
 
-const buildBranch = function (branch, token, newLine = false) {
+const buildBranch = function (branch, token) {
   let { value, scopes } = token;
 
   // If there is a single scope, it is appended with the value to the current
@@ -30,7 +30,7 @@ const buildBranch = function (branch, token, newLine = false) {
   // a new scope is appended to the existing one and initialise the
   // children with an empty array as an attribute.
   // The same applies if a new line is found.
-  if (lastBranch.scope != scope || newLine) {
+  if (lastBranch.scope != scope) {
     return [
       ...branch,
       { scope: scope, children: buildBranch([], childToken) }
@@ -56,6 +56,7 @@ const shouldNotRender = function(value, values, valueIndex, tokens, tokenIndex) 
 const buildTokenTree = function(text, grammar) {
   let { line, tags } = grammar.tokenizeLine(text);
   let tokens = grammarRegistry.decodeTokens(line, tags);
+  let lines = [];
   let rootBranch = [];
   let isNewLine = false;
   tokens.forEach(function(token, tokenIndex) {
@@ -68,22 +69,27 @@ const buildTokenTree = function(text, grammar) {
         isNewLine = true;
         return;
       }
+
+      if (valueIndex > 0 || isNewLine) {
+        lines = [...lines, { node: rootBranch[0] }];
+        rootBranch = [];
+      }
+
       rootBranch = buildBranch(rootBranch,
-                               { value: splittedValue, scopes: scopes },
-                               valueIndex > 0 || isNewLine);
+                               { value: splittedValue, scopes: scopes });
       isNewLine = false;
     });
   });
-  return rootBranch;
+
+  lines = [...lines, { node: rootBranch[0] }];
+  return lines;
 }
 
-const defaultState = {
+const editor = function(state = {
   text: '',
   grammar: cssGrammar,
-  tree: buildTokenTree('', cssGrammar)
-}
-
-const editor = function(state = defaultState, action = '') {
+  lines: buildTokenTree('', cssGrammar)
+}, action) {
   switch (action.type) {
     case ActionTypes.EDITOR_TEXT_CHANGED:
       let regularExpresionNewLines=/\r\n|\n\r|\n|\r/g;
@@ -91,7 +97,7 @@ const editor = function(state = defaultState, action = '') {
       return {
         ...state,
         text: cleanText,
-        tree: buildTokenTree(cleanText, state.grammar)
+        lines: buildTokenTree(cleanText, state.grammar)
       };
     default:
       return state;

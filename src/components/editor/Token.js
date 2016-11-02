@@ -11,33 +11,33 @@ const isLastNode = function(node) {
   return node.children == null;
 }
 
-const Token = ({ tree, singleChild }) => {
+const Token = ({ node, singleChild }) => {
   // if the current node is at the end of the branch the Token is a simple <span>
-  if (isLastNode(tree)) {
-    return (<span>{tree.value}</span>)
+  if (isLastNode(node)) {
+    return (<span>{node.value}</span>)
   }
 
   // if the current node is a single child and has only 1 child and it happens
   // to be the last node of the branch the Token is a spn with th className of
   // the scope and the value of the child.
-  let hasSingleChild = tree.children.length == 1;
-  if (singleChild && hasSingleChild && isLastNode(tree.children[0])) {
-    return (<span className={styles(tree.scope)}>{tree.children[0].value}</span>)
+  let hasSingleChild = node.children.length == 1;
+  if (singleChild && hasSingleChild && isLastNode(node.children[0])) {
+    return (<span className={styles(node.scope)}>{node.children[0].value}</span>)
   }
 
   // The normal behaviour of the Token is a span with the className of the scope
   // and multiple Tokens as direct children
   return (
-    <span className={styles(tree.scope)}>
-      {tree.children.map(function(branch, index) {
-        return <Token tree={branch} singleChild={hasSingleChild} key={index}/>
+    <span className={styles(node.scope)}>
+      {node.children.map(function(childNode, index) {
+        return <Token node={childNode} singleChild={hasSingleChild} key={index}/>
       })}
     </span>
   )
 };
 
 Token.propTypes = {
-  tree: PropTypes.object.isRequired,
+  node: PropTypes.object.isRequired,
   singleChild: PropTypes.bool
 };
 

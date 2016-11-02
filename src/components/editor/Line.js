@@ -2,14 +2,14 @@ import React, { PropTypes } from 'react'
 import styles from './index.css';
 import Token from './Token';
 
-const Line = ({ tree }) => (
+const Line = ({ line }) => (
   <div className={styles.line}>
-    <Token tree={tree} />
+    <Token node={line.node} />
   </div>
 )
 
 Line.propTypes = {
-  tree: PropTypes.object.isRequired
+  line: PropTypes.object.isRequired
 }
 
 export default Line
