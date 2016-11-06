@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
-import atom from './index.less';
+import atom from '../../../atom-packages/atom/static/atom.less';
+// import atomSyntax from './index.less';
 import Gutter from './Gutter';
 import Line from './Line';
 

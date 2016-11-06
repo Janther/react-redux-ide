@@ -46,14 +46,14 @@ const buildBranch = function (branch, token) {
   ]
 }
 
-const shouldNotRender = function(value, values, valueIndex, tokens, tokenIndex) {
+const shouldSkip = function(value, values, valueIndex, tokens, tokenIndex) {
   let isEmptyValue = value == '';
   let isNotTheFirstLine = tokenIndex != 0 && valueIndex == 0;
   let isNotTheLastLine = tokenIndex != tokens.length - 1 && valueIndex == values.length - 1;
-  return isEmptyValue && (isNotTheFirstLine || isNotTheLastLine);
+  return (isNotTheFirstLine || isNotTheLastLine) && isEmptyValue;
 }
 
-const buildTokenTree = function(text, grammar) {
+const textIntoLines = function(text, grammar) {
   let { line, tags } = grammar.tokenizeLine(text);
   let tokens = grammarRegistry.decodeTokens(line, tags);
   let lines = [];
@@ -63,9 +63,9 @@ const buildTokenTree = function(text, grammar) {
     let { value, scopes } = token;
     let splittedValues = value.split("\n");
     splittedValues.forEach(function(splittedValue, valueIndex) {
-      if (shouldNotRender(splittedValue,
-                          splittedValues, valueIndex,
-                          tokens, tokenIndex)) {
+      if (shouldSkip(splittedValue,
+                     splittedValues, valueIndex,
+                     tokens, tokenIndex)) {
         isNewLine = true;
         return;
       }
@@ -88,7 +88,7 @@ const buildTokenTree = function(text, grammar) {
 const editor = function(state = {
   text: '',
   grammar: cssGrammar,
-  lines: buildTokenTree('', cssGrammar)
+  lines: textIntoLines('', cssGrammar)
 }, action) {
   switch (action.type) {
     case ActionTypes.EDITOR_TEXT_CHANGED:
@@ -97,7 +97,7 @@ const editor = function(state = {
       return {
         ...state,
         text: cleanText,
-        lines: buildTokenTree(cleanText, state.grammar)
+        lines: textIntoLines(cleanText, state.grammar)
       };
     default:
       return state;
