@@ -1,9 +1,19 @@
 import React, { PropTypes } from 'react'
-import styles from './index.less';
-import Token from './Token';
+import styles from './index.css';
+import atom from '../../../atom-packages/atom/static/atom.less';
 
 const Gutter = ({ lines }) => (
-    <div className={styles.gutter} />
+  <div className={atom['gutter-container']} >
+    <div className={atom.gutter} >
+      <div className={atom['line-numbers']} >
+        {lines.map(function(line, index){
+          return (<div className={[styles['line-number'], atom['line-number']].join(' ')} >
+            {index + 1}
+          </div>)
+        })}
+      </div>
+    </div>
+  </div>
 )
 
 Gutter.propTypes = {
