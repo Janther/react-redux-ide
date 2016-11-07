@@ -19,6 +19,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "lodash": "^4.16.6",
+    "mousetrap": "^1.6.0",
     "one-dark-syntax": "https://github.com/atom/one-dark-syntax.git",
     "one-dark-ui": "https://github.com/atom/one-dark-ui.git",
     "onigurumajs": "^1.0.0",

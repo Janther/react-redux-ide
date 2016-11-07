@@ -1,5 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import { cssGrammar, grammarRegistry } from '../utils/grammars';
+import cursor from './cursor';
 
 const buildBranch = function (branch, token) {
   let { value, scopes } = token;
@@ -88,7 +89,8 @@ const textIntoLines = function(text, grammar) {
 const editor = function(state = {
   text: '',
   grammar: cssGrammar,
-  lines: textIntoLines('', cssGrammar)
+  lines: textIntoLines('', cssGrammar),
+  cursor: cursor(undefined, {})
 }, action) {
   switch (action.type) {
     case ActionTypes.EDITOR_TEXT_CHANGED:
@@ -98,6 +100,11 @@ const editor = function(state = {
         ...state,
         text: cleanText,
         lines: textIntoLines(cleanText, state.grammar)
+      };
+    case ActionTypes.EDITOR_MOVE_CURSOR:
+      return {
+        ...state,
+        cursor: cursor(state.cursor, action, state.lines)
       };
     default:
       return state;

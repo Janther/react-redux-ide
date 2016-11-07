@@ -12,6 +12,7 @@
 }
 
 textarea {
+  /*display: none;*/
   width: 100%;
   padding: 0.7em;
   resize: none;
