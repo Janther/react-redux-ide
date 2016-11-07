@@ -7,7 +7,7 @@ const Gutter = ({ lines }) => (
     <div className={atom.gutter} >
       <div className={atom['line-numbers']} >
         {lines.map(function(line, index){
-          return (<div className={[styles['line-number'], atom['line-number']].join(' ')} >
+          return (<div className={[styles['line-number'], atom['line-number']].join(' ')} key={index}>
             {index + 1}
           </div>)
         })}
