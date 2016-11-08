@@ -2,7 +2,15 @@ import * as ActionTypes from '../constants/ActionTypes';
 
 const cursor = function(state = {
   line: 0,
-  position: 0
+  char: 0,
+  invalidCharSize: true,
+  charSize: {
+    defaultCharWidth: 0,
+    doubleWidthCharWidth: 0,
+    halfWidthCharWidth: 0,
+    koreanCharWidth: 0,
+    lineHeightInPixels: 0
+  }
 }, action, lines) {
   switch (action.type) {
     case ActionTypes.EDITOR_MOVE_CURSOR:
@@ -20,13 +28,24 @@ const cursor = function(state = {
         case 'left':
           return {
             ...state,
-            position: Math.max(0, state.position - 1)
+            char: Math.max(0, state.char - 1)
           }
         case 'right':
           return {
             ...state,
-            position: state.position + 1
+            char: state.char + 1
           }
+      }
+    case ActionTypes.EDITOR_UPDATE_CHAR_SIZE:
+      return {
+        ...state,
+        invalidCharSize: false,
+        charSize: action.size
+      }
+    case ActionTypes.EDITOR_INVALIDATE_CHAR_SIZE:
+      return {
+        ...state,
+        invalidCharSize: true
       }
     default:
       return state;

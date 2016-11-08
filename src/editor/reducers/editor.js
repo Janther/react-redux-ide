@@ -102,6 +102,8 @@ const editor = function(state = {
         lines: textIntoLines(cleanText, state.grammar)
       };
     case ActionTypes.EDITOR_MOVE_CURSOR:
+    case ActionTypes.EDITOR_UPDATE_CHAR_SIZE:
+    case ActionTypes.EDITOR_INVALIDATE_CHAR_SIZE:
       return {
         ...state,
         cursor: cursor(state.cursor, action, state.lines)

@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
+import atomStyles from './atomStyles';
 import styles from './index.css';
-import atom from '../../../atom-packages/atom/static/atom.less';
 import Gutter from './Gutter';
 import Line from './Line';
-import MetaCursor from '../../containers/MetaCursor';
+import MetaDummyLine from '../containers/MetaDummyLine';
+import MetaCursor from '../containers/MetaCursor';
 
-const Editor = ({ lines, onChange }) => {
+const Editor = ({ lines, invalidCharSize, onChange }) => {
   let linesStyles = {
     height: "0px",
     backgroundColor: "rgb(40, 44, 52)"
@@ -15,21 +16,22 @@ const Editor = ({ lines, onChange }) => {
     zIndex: 0
   }
   let textareaProps = {
-    autocorrect: "off",
-    autocapitalize: "off",
-    spellcheck: "false",
-    tabindex: "0"
+    autoCorrect: "off",
+    autoCapitalize: "off",
+    spellCheck: "false",
+    tabIndex: "0"
   }
   return (
     <div>
       <textarea {...textareaProps} onChange={e => { onChange(e.target.value) }} />
-      <div className={[styles['atom-text-editor'], atom['atom-text-editor'], atom["is-focused"]].join(' ')}>
-        <div className={atom["editor--private"]}>
-          <div className={atom["editor-contents--private"]}>
+      <div className={[styles['atom-text-editor'], atomStyles['atom-text-editor'], atomStyles["is-focused"]].join(' ')}>
+        <div className={atomStyles["editor--private"]}>
+          <div className={atomStyles["editor-contents--private"]}>
             <Gutter lines={lines} />
-            <div className={atom["scroll-view"]}>
-              <div className={atom.lines} style={linesStyles} >
+            <div className={atomStyles["scroll-view"]}>
+              <div className={atomStyles.lines} style={linesStyles} >
                 <div style={isolationStyles}>
+                  {invalidCharSize && <MetaDummyLine />}
                   {lines.map(function(line, index) {
                     return <Line line={line} key={index} />
                   })}
@@ -46,6 +48,7 @@ const Editor = ({ lines, onChange }) => {
 
 Editor.propTypes = {
   lines: PropTypes.array.isRequired,
+  invalidCharSize: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired
 }
 

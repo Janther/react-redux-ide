@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeText } from '../actions/EditorActions';
-import Editor from '../components/Editor/index';
+import Editor from '../components';
 
 const mapStateToProps = (state) => {
   return {
-    lines: state.editor.lines
+    lines: state.editor.lines,
+    invalidCharSize: state.editor.cursor.invalidCharSize
   }
 }
 

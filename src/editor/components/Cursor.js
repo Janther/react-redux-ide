@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import atom from '../../../atom-packages/atom/static/atom.less';
+import atomStyles from './atomStyles';
 
 const Cursor = ({ x, y }) => {
   let styles = {
@@ -9,8 +9,8 @@ const Cursor = ({ x, y }) => {
   }
 
   return (
-    <div className={atom.cursors} >
-      <div className={atom.cursor} style={styles}></div>
+    <div className={atomStyles.cursors} >
+      <div className={atomStyles.cursor} style={styles}></div>
     </div>
   )
 }
