@@ -24,10 +24,10 @@ class DummyLine extends Component {
     }
 
     let tokens = [
-      { value: 'x' },
-      { value: '我' },
-      { value: 'ﾊ' },
-      { value: '세' }
+      { scope: 'source', children: [ { value: 'x' } ] },
+      { scope: 'source', children: [ { value: '我' } ] },
+      { scope: 'source', children: [ { value: 'ﾊ' } ] },
+      { scope: 'source', children: [ { value: '세' } ] }
     ]
 
     return (

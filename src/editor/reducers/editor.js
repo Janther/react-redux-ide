@@ -1,5 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import { cssGrammar, grammarRegistry } from '../utils/grammars';
+import { updateObject, updateItemInArray } from './reducerUtils';
 import cursor from './cursor';
 
 const buildBranch = function (branch, token) {
@@ -41,48 +42,29 @@ const buildBranch = function (branch, token) {
   // If there are child-scopes, and the current branch has children, and
   // the last scope of the branch does match the current scope.
   // the current branch's last scope's children are given as an attribute
-  return [
-    ...branch.slice(0, -1),
-    { ...lastBranch, children: buildBranch(lastBranch.children, childToken) }
-  ]
-}
-
-const shouldSkip = function(value, values, valueIndex, tokens, tokenIndex) {
-  let isEmptyValue = value == '';
-  let isNotTheFirstLine = tokenIndex != 0 && valueIndex == 0;
-  let isNotTheLastLine = tokenIndex != tokens.length - 1 && valueIndex == values.length - 1;
-  return (isNotTheFirstLine || isNotTheLastLine) && isEmptyValue;
+  return updateItemInArray(branch, branch.length - 1, (node) => {
+    return updateObject(node, { children: buildBranch(node.children, childToken) });
+  });
 }
 
 const textIntoLines = function(text, grammar) {
-  let { line, tags } = grammar.tokenizeLine(text);
-  let tokens = grammarRegistry.decodeTokens(line, tags);
-  let lines = [];
-  let rootBranch = [];
-  let isNewLine = false;
-  tokens.forEach(function(token, tokenIndex) {
-    let { value, scopes } = token;
-    let splittedValues = value.split("\n");
-    splittedValues.forEach(function(splittedValue, valueIndex) {
-      if (shouldSkip(splittedValue,
-                     splittedValues, valueIndex,
-                     tokens, tokenIndex)) {
-        isNewLine = true;
-        return;
-      }
+  const tokenizedLines = grammar.tokenizeLines(text);
+  const lines = tokenizedLines.map(function(tokens, index) {
+    if (index > 1000) {
+      line = tokens.map(function(token) {
+        return token.value;
+      }).join('');
+      return { node: { scope: 'source', children: [ { value: line } ] },
+               line: line }
+    }
+    let rootBranch = [];
+    let line = tokens.map(function(token) {
+      rootBranch = buildBranch(rootBranch, token);
+      return token.value;
+    }).join('');
 
-      if (valueIndex > 0 || isNewLine) {
-        lines = [...lines, { node: rootBranch[0] }];
-        rootBranch = [];
-      }
-
-      rootBranch = buildBranch(rootBranch,
-                               { value: splittedValue, scopes: scopes });
-      isNewLine = false;
-    });
+    return { node: rootBranch[0], line: line };
   });
-
-  lines = [...lines, { node: rootBranch[0] }];
   return lines;
 }
 
@@ -94,20 +76,18 @@ const editor = function(state = {
 }, action) {
   switch (action.type) {
     case ActionTypes.EDITOR_TEXT_CHANGED:
-      let regularExpresionNewLines=/\r\n|\n\r|\n|\r/g;
-      let cleanText = action.text.replace(regularExpresionNewLines, "\n");
-      return {
-        ...state,
-        text: cleanText,
-        lines: textIntoLines(cleanText, state.grammar)
-      };
+      return updateObject(
+        state,
+        { text: action.text,
+          lines: textIntoLines(action.text, state.grammar) }
+      );
     case ActionTypes.EDITOR_MOVE_CURSOR:
     case ActionTypes.EDITOR_UPDATE_CHAR_SIZE:
     case ActionTypes.EDITOR_INVALIDATE_CHAR_SIZE:
-      return {
-        ...state,
-        cursor: cursor(state.cursor, action, state.lines)
-      };
+      return updateObject(
+        state,
+        { cursor: cursor(state.cursor, action, state.lines) }
+      );
     default:
       return state;
   }
