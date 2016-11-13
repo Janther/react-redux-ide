@@ -11,9 +11,12 @@ export function changeText(text) {
 }
 
 export function moveCursor(direction) {
-  return {
-    type: EDITOR_MOVE_CURSOR,
-    direction
+  return (dispatch, getState) => {
+    dispatch({
+      type: EDITOR_MOVE_CURSOR,
+      lines: getState().lines,
+      direction
+    });
   }
 }
 

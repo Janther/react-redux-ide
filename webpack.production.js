@@ -6,6 +6,17 @@ var CssPlugin = new ExtractTextPlugin('app.css');
 var LessPlugin = new ExtractTextPlugin('syntax.css');
 
 module.exports = {
+  stats: {
+    // minimal logging
+    assets: false,
+    colors: true,
+    version: false,
+    hash: false,
+    timings: false,
+    chunks: false,
+    chunkModules: false,
+    children: false
+  },
   entry: [
     './src/index.js'
   ],

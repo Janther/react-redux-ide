@@ -5,6 +5,15 @@ export function updateObject(oldObject, newValues) {
   return newObject;
 }
 
+export function insertItemInArray(array, index, item) {
+  const updatedItems = [
+    ...array.slice(0, index),
+    item,
+    ...array.slice(index + 1),
+  ];
+  return updatedItems;
+}
+
 export function updateItemInArray(array, index, updateItemCallback) {
   const updatedItems = [
     ...array.slice(0, index),

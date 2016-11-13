@@ -11,7 +11,7 @@ const cursor = function(state = {
     koreanCharWidth: 0,
     lineHeightInPixels: 0
   }
-}, action, lines) {
+}, action) {
   switch (action.type) {
     case ActionTypes.EDITOR_MOVE_CURSOR:
       switch (action.direction) {
@@ -23,7 +23,7 @@ const cursor = function(state = {
         case 'down':
           return {
             ...state,
-            line: Math.min(lines.length - 1, state.line + 1)
+            line: Math.min(action.lines.length - 1, state.line + 1)
           }
         case 'left':
           return {

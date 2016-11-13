@@ -1,6 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes';
 import { cssGrammar, grammarRegistry } from '../utils/grammars';
-import { updateObject, updateItemInArray } from './reducerUtils';
+import { updateObject, insertItemInArray, updateItemInArray } from './reducerUtils';
 import cursor from './cursor';
 
 const buildBranch = function (branch, token) {
@@ -9,7 +9,7 @@ const buildBranch = function (branch, token) {
   // If there is a single scope, it is appended with the value to the current
   // branch.
   if (scopes.length == 0) {
-    return [...branch, { value: value }];
+    return insertItemInArray(branch, branch.length, { value: value })
   }
 
   let scope = scopes[0];
@@ -19,10 +19,7 @@ const buildBranch = function (branch, token) {
   // a new branch is built by giving the current branch and initialising the
   // children with an empty array as an attribute.
   if (branch.length == 0) {
-    return [
-      ...branch,
-      { scope: scope, children: buildBranch([], childToken) }
-    ]
+    return insertItemInArray(branch, branch.length, { scope: scope, children: buildBranch([], childToken) })
   }
 
   let lastBranch = branch[branch.length - 1];
@@ -33,10 +30,7 @@ const buildBranch = function (branch, token) {
   // children with an empty array as an attribute.
   // The same applies if a new line is found.
   if (lastBranch.scope != scope) {
-    return [
-      ...branch,
-      { scope: scope, children: buildBranch([], childToken) }
-    ]
+    return insertItemInArray(branch, branch.length, { scope: scope, children: buildBranch([], childToken) })
   }
 
   // If there are child-scopes, and the current branch has children, and
@@ -86,7 +80,7 @@ const editor = function(state = {
     case ActionTypes.EDITOR_INVALIDATE_CHAR_SIZE:
       return updateObject(
         state,
-        { cursor: cursor(state.cursor, action, state.lines) }
+        { cursor: cursor(state.cursor, action) }
       );
     default:
       return state;
