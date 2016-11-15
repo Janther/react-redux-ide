@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { updateCharSize } from '../actions/EditorActions';
-import DummyLine from '../components/DummyLine';
+import actions from '../actions';
+import { DummyLine } from '../components';
 
-const mapStateToProps = (state) => {
-  return {}
-}
+const { updateCharSize } = actions;
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -17,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const MetaDummyLine = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(DummyLine);
 

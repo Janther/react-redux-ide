@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import atomStyles from './atomStyles';
-import styles from './index.css';
+import styles from './Editor.css';
 import Token from './Token';
 
 const Line = ({ line }) => (

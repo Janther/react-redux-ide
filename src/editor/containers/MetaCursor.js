@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Cursor from '../components/Cursor';
+import { Cursor } from '../components';
 import { cursorX, cursorY } from '../selectors/cursor';
 
 const mapStateToProps = (state) => {

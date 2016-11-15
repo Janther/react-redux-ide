@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import MetaEditor from '../editor/containers/MetaEditor'
+import { MetaEditor } from '../editor/containers'
 
 const App = () => (
   <div>

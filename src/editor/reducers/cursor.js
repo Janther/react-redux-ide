@@ -1,4 +1,4 @@
-import * as ActionTypes from '../constants/ActionTypes';
+import constants from '../constants';
 
 const cursor = function(state = {
   line: 0,
@@ -13,7 +13,7 @@ const cursor = function(state = {
   }
 }, action) {
   switch (action.type) {
-    case ActionTypes.EDITOR_MOVE_CURSOR:
+    case constants.EDITOR_MOVE_CURSOR:
       switch (action.direction) {
         case 'up':
           return {
@@ -36,13 +36,13 @@ const cursor = function(state = {
             char: state.char + 1
           }
       }
-    case ActionTypes.EDITOR_UPDATE_CHAR_SIZE:
+    case constants.EDITOR_UPDATE_CHAR_SIZE:
       return {
         ...state,
         invalidCharSize: false,
         charSize: action.size
       }
-    case ActionTypes.EDITOR_INVALIDATE_CHAR_SIZE:
+    case constants.EDITOR_INVALIDATE_CHAR_SIZE:
       return {
         ...state,
         invalidCharSize: true

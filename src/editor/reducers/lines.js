@@ -1,4 +1,4 @@
-import constants from '../constants';
+import * as ActionTypes from '../constants/ActionTypes';
 import { cssGrammar, grammarRegistry } from '../utils/grammars';
 import { updateObject, insertItemInArray, updateItemInArray } from './reducerUtils';
 import cursor from './cursor';
@@ -76,30 +76,13 @@ const textIntoLines = function(text, grammar) {
   return lines;
 }
 
-const editor = function(state = {
-  text: '',
-  grammar: cssGrammar,
-  lines: textIntoLines('', cssGrammar),
-  cursor: cursor(undefined, {})
-}, action) {
+const lines = function(state = [], action) {
   switch (action.type) {
-    case constants.EDITOR_TEXT_CHANGED:
-    case constants.EDITOR_TEXT_ADDED:
-      return updateObject(
-        state,
-        { text: action.text,
-          lines: textIntoLines(action.text, state.grammar) }
-      );
-    case constants.EDITOR_MOVE_CURSOR:
-    case constants.EDITOR_UPDATE_CHAR_SIZE:
-    case constants.EDITOR_INVALIDATE_CHAR_SIZE:
-      return updateObject(
-        state,
-        { cursor: cursor(state.cursor, action) }
-      );
+    case ActionTypes.EDITOR_TEXT_CHANGED:
+      return textIntoLines(action.text, state.grammar)
     default:
       return state;
   }
 }
 
-export default editor
+export default lines

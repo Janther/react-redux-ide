@@ -1,5 +1,7 @@
 import Moustrap from 'mousetrap';
-import { moveCursor } from '../editor/actions/EditorActions';
+import actions from '../editor/actions';
+
+const { moveCursor } = actions;
 
 export const keyBindings = function (dispatch) {
   Mousetrap.bind('up', function() { dispatch(moveCursor('up')); });

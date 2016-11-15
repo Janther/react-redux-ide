@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import atomStyles from './atomStyles';
-import styles from './index.css';
+import styles from './Editor.css';
 
 const Gutter = ({ lines }) => (
   <div className={atomStyles['gutter-container']} >

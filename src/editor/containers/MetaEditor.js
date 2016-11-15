@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeText } from '../actions/EditorActions';
-import Editor from '../components';
+import { Editor } from '../components';
 
 const mapStateToProps = (state) => {
   return {
@@ -11,11 +10,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    onChange: (text) => {
-      dispatch(changeText(text));
-    }
-  }
+  return {}
 }
 
 const MetaEditor = connect(
