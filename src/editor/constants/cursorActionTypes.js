@@ -1,1 +1,0 @@
-export const EDITOR_MOVE_CURSOR  = 'MOVE_CURSOR';

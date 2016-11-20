@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
-import { MetaEditor } from '../editor/containers'
+import Editor from '../editor/component'
 
 const App = () => (
-  <div>
-    <MetaEditor />
-  </div>
+  <Editor />
 )
 
 export default App

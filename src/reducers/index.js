@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import editor from '../editor/reducers/editor';
+import keyboard from '../keyboard/reducer';
 
 const rootReducer = combineReducers({
-  editor
+  keyboard
 });
 
 export default rootReducer;
