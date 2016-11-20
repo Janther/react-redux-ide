@@ -1,4 +1,5 @@
 import * as constants from '../constants';
+import { updateObject, insertItemInArray, updateItemInArray } from './reducerUtils';
 
 const regularExpresionNewLines=/\r\n|\n\r|\n|\r/g;
 
@@ -13,9 +14,27 @@ const lines = function(state = [ { value: '', offset: 0, syntax: false } ], acti
         offset += line.length;
         return lineObject;
       });
+    case constants.EDITOR_LINE_CHANGED:
+      const payload = action.payload;
+
+      return updateItemInArray(
+        state,
+        payload.cursor.line,
+        (line) => {
+          return updateObject(
+            line,
+            {
+              value:
+                line.value.slice(0, payload.cursor.startOffset) +
+                payload.text +
+                line.value.slice(payload.cursor.endOffset)
+            }
+          );
+        }
+      )
     default:
       return state;
   }
-}
+};
 
-export default lines
+export default lines;

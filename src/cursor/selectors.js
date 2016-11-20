@@ -4,6 +4,7 @@ import { isKoreanCharacter,
          isDoubleWidthCharacter } from './text_utils'
 
 const cursorSelector = state => state.keyboard.cursor;
+const charSizeSelector = state => state.lines.charSize;
 
 // ratioForCharacter: (character) ->
 //   if isKoreanCharacter(character)
@@ -17,10 +18,12 @@ const cursorSelector = state => state.keyboard.cursor;
 
 export const cursorX = createSelector(
   cursorSelector,
-  cursor => Math.floor(cursor.char * cursor.charSize.defaultCharWidth)
+  charSizeSelector,
+  (cursor, charSize) => Math.floor(cursor.char * charSize.defaultCharWidth)
 )
 
 export const cursorY = createSelector(
   cursorSelector,
-  cursor => cursor.line * cursor.charSize.lineHeightInPixels
+  charSizeSelector,
+  (cursor, charSize) => Math.floor(cursor.line * charSize.lineHeightInPixels)
 )

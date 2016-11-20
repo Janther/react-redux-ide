@@ -8,14 +8,8 @@ describe('cursor reducer', () => {
     ).toEqual({
       line: 0,
       char: 0,
-      invalidCharSize: true,
-      charSize: {
-        defaultCharWidth: 0,
-        doubleWidthCharWidth: 0,
-        halfWidthCharWidth: 0,
-        koreanCharWidth: 0,
-        lineHeightInPixels: 0
-      }
+      startOffset: 0,
+      endOffset: 0
     });
   });
 
@@ -23,8 +17,10 @@ describe('cursor reducer', () => {
     expect(
       reducer({ line: 0, char: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
-        lines: [],
-        direction: 'up'
+        payload: {
+          lines: [],
+          direction: 'up'
+        }
       })
     ).toEqual(
       { line: 0, char: 0 }
@@ -33,8 +29,10 @@ describe('cursor reducer', () => {
     expect(
       reducer({ line: 2, char: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
-        lines: [1, 2, 3],
-        direction: 'up'
+        payload: {
+          lines: [1, 2, 3],
+          direction: 'up'
+        }
       })
     ).toEqual(
       { line: 1, char: 0 }
@@ -45,8 +43,10 @@ describe('cursor reducer', () => {
     expect(
       reducer({ line: 1, char: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
-        lines: [1, 2],
-        direction: 'down'
+        payload: {
+          lines: [1, 2],
+          direction: 'down'
+        }
       })
     ).toEqual(
       { line: 1, char: 0 }
@@ -57,8 +57,10 @@ describe('cursor reducer', () => {
     expect(
       reducer({ line: 0, char: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
-        lines: [1, 2],
-        direction: 'left'
+        payload: {
+          lines: [1, 2],
+          direction: 'left'
+        }
       })
     ).toEqual(
       { line: 0, char: 0 }
@@ -67,8 +69,10 @@ describe('cursor reducer', () => {
     expect(
       reducer({ line: 0, char: 2 }, {
         type: constants.EDITOR_MOVE_CURSOR,
-        lines: [1, 2],
-        direction: 'left'
+        payload: {
+          lines: [1, 2],
+          direction: 'left'
+        }
       })
     ).toEqual(
       { line: 0, char: 1 }
@@ -79,8 +83,10 @@ describe('cursor reducer', () => {
     expect(
       reducer({ line: 0, char: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
-        lines: [1, 2],
-        direction: 'right'
+        payload: {
+          lines: [1, 2],
+          direction: 'right'
+        }
       })
     ).toEqual(
       { line: 0, char: 1 }

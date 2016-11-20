@@ -6,7 +6,9 @@ describe('actions', () => {
     const text = 'new line'
     const expectedAction = {
       type: constants.EDITOR_TEXT_ADDED,
-      text
+      payload: {
+        text
+      }
     }
     expect(actions.addText(text)).toEqual(expectedAction)
   })

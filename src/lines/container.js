@@ -6,7 +6,7 @@ import { updateCharSize } from './actions';
 const mapStateToProps = (state) => {
   return {
     lines: state.keyboard.lines,
-    invalidCharSize: state.keyboard.cursor.invalidCharSize
+    invalidCharSize: state.lines.invalidCharSize
   }
 }
 

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import text from './reducers/text';
+import commands from './reducers/commands';
 import lines from './reducers/lines';
 import cursor from './reducers/cursor';
 
 const keyboard = combineReducers({
-  text,
+  commands,
   lines,
   cursor
 });
