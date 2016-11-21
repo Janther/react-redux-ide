@@ -1,22 +1,6 @@
 import * as constants from './constants';
 
-export function changeText(text) {
-  return {
-    type: constants.EDITOR_TEXT_CHANGED,
-    payload: {
-      text
-    }
-  }
-}
-
-export function addText(text) {
-  return {
-    type: constants.EDITOR_TEXT_ADDED,
-    payload: {
-      text
-    }
-  }
-}
+const regularExpresionNewLines=/\r\n|\n\r|\n|\r/g;
 
 export function editLine(text) {
   return (dispatch, getState) => {
@@ -24,7 +8,7 @@ export function editLine(text) {
       type: constants.EDITOR_LINE_CHANGED,
       payload: {
         cursor: getState().keyboard.cursor,
-        text
+        lines: text.split(regularExpresionNewLines)
       }
     });
   }

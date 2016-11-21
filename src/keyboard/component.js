@@ -19,7 +19,7 @@ class KeyBoardComponent extends Component {
   };
 
   render() {
-    const { onChange } = this.props;
+    const { onChange, textarea } = this.props;
     const textareaProps = {
       autoCorrect: "off",
       autoCapitalize: "off",
@@ -27,7 +27,10 @@ class KeyBoardComponent extends Component {
       tabIndex: "0"
     };
     return (
-      <textarea {...textareaProps} onChange={e => { onChange(e.target.value); }} />
+      <textarea
+        {...textareaProps}
+        onChange={e => { onChange(e.target.value); }}
+        value={textarea} />
     )
   }
 }
@@ -35,6 +38,7 @@ class KeyBoardComponent extends Component {
 KeyBoardComponent.propTypes = {
   onChange: PropTypes.func.isRequired,
   commands: PropTypes.array.isRequired,
+  textarea: PropTypes.string.isRequired,
   registerShortcut: PropTypes.func.isRequired,
   unRegisterShortcut: PropTypes.func.isRequired
 }

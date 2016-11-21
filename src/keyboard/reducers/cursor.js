@@ -32,11 +32,23 @@ const cursor = function(state = {
           )
       }
     case constants.EDITOR_LINE_CHANGED:
+      const lines = action.payload.lines;
+      let newCursor = {};
+
+      if (lines.length == 1) {
+        newCursor.endOffset = state.startOffset + lines[0].length;
+        newCursor.char = newCursor.endOffset;
+      } else {
+        newCursor.startOffset = lines[lines.length - 1].length;
+        newCursor.endOffset = newCursor.startOffset;
+        newCursor.char = newCursor.startOffset;
+        newCursor.line = state.line + lines.length - 1;
+      }
+
       return updateObject(
         state,
-        { endOffset: state.startOffset + action.payload.text.length }
-      )
-
+        newCursor
+      );
     default:
       return state;
   }

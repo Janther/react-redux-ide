@@ -18,7 +18,8 @@ const registerShortcut = (element, dispatch, shortcut, actionType) => {
 
 const mapStateToProps = (state) => {
   return {
-    commands: state.keyboard.commands
+    commands: state.keyboard.commands,
+    textarea: state.keyboard.textarea
   }
 };
 
