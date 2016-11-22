@@ -1,57 +1,115 @@
 import * as constants from '../constants';
-import { updateObject, insertItemInArray, updateItemInArray } from './reducerUtils';
+import { createReducer, updateObject, insertItemInArray, updateItemInArray } from './reducerUtils';
 
-const cursor = function(state = {
-  line: 0,
-  char: 0,
-  startOffset: 0,
-  endOffset: 0
-}, action) {
-  switch (action.type) {
-    case constants.EDITOR_MOVE_CURSOR:
-      switch (action.payload.direction) {
-        case 'up':
-          return updateObject(
-            state,
-            { line: Math.max(0, state.line - 1) }
-          )
-        case 'down':
-          return updateObject(
-            state,
-            { line: Math.min(action.payload.lines.length - 1, state.line + 1) }
-          )
-        case 'left':
-          return updateObject(
-            state,
-            { char: Math.max(0, state.char - 1) }
-          )
-        case 'right':
-          return updateObject(
-            state,
-            { char: state.char + 1 }
-          )
-      }
-    case constants.EDITOR_LINE_CHANGED:
-      const lines = action.payload.lines;
-      let newCursor = {};
+const resetOffsets = (cursor) => {
+  return updateObject(
+    cursor,
+    {
+      startOffset: cursor.char,
+      endOffset: cursor.char
+    }
+  );
+}
 
-      if (lines.length == 1) {
-        newCursor.endOffset = state.startOffset + lines[0].length;
-        newCursor.char = newCursor.endOffset;
-      } else {
-        newCursor.startOffset = lines[lines.length - 1].length;
-        newCursor.endOffset = newCursor.startOffset;
-        newCursor.char = newCursor.startOffset;
-        newCursor.line = state.line + lines.length - 1;
-      }
+const charsInLine = (lines, index) => {
+  return lines[index].value.length;
+}
 
-      return updateObject(
-        state,
-        newCursor
-      );
-    default:
-      return state;
+const moveUpCursor = (state, action) => {
+  let newCursor = {};
+
+  if (state.line == 0) {
+    newCursor.char = 0;
+  } else {
+    const payloadLines = action.payload.lines;
+    const previousLineLength = charsInLine(payloadLines, state.line - 1);
+    newCursor.line = state.line - 1;
+    newCursor.char = Math.min(previousLineLength, state.char);
   }
-};
+
+  return updateObject(state, resetOffsets(newCursor));
+}
+
+const moveDownCursor = (state, action) => {
+  let newCursor = {};
+  const payloadLines = action.payload.lines;
+
+  if (state.line == payloadLines.length - 1) {
+    newCursor.char = charsInLine(payloadLines, payloadLines.length - 1);
+  } else {
+    const nextLineLength = charsInLine(payloadLines, state.line + 1);
+    newCursor.line = state.line + 1;
+    newCursor.char = Math.min(nextLineLength, state.char)
+  }
+
+  return updateObject(state, resetOffsets(newCursor));
+}
+
+const moveLeftCursor = (state, action) => {
+  let newCursor = {};
+
+  if (state.char > 0) {
+    newCursor.char = state.char - 1;
+  } else if (state.line > 0) {
+    const payloadLines = action.payload.lines;
+    const previousLineLength = charsInLine(payloadLines, state.line - 1);
+    newCursor.line = state.line - 1;
+    newCursor.char = previousLineLength;
+  } else {
+    newCursor.char = state.char;
+  }
+
+  return updateObject(state, resetOffsets(newCursor));
+}
+
+const moveRightCursor = (state, action) => {
+  let newCursor = {};
+  const payloadLines = action.payload.lines;
+  const currentLineLength = charsInLine(payloadLines, state.line);
+
+  if (state.char < currentLineLength) {
+    newCursor.char = state.char + 1;
+  } else if (state.line < payloadLines.length - 1) {
+    newCursor.line = state.line + 1;
+    newCursor.char = 0;
+  } else {
+    newCursor.char = state.char;
+  }
+
+  return updateObject(state, resetOffsets(newCursor));
+}
+
+const editLine = (state, action) => {
+  let newCursor = {};
+  const payloadLines = action.payload.lines;
+
+  if (payloadLines.length == 1) {
+    newCursor.endOffset = state.startOffset + payloadLines[0].length;
+    newCursor.char = newCursor.endOffset;
+  } else {
+    newCursor.line = state.line + payloadLines.length - 1;
+    newCursor.char = payloadLines[payloadLines.length - 1].length;
+    newCursor = resetOffsets(newCursor);
+  }
+
+  return updateObject(state, newCursor);
+}
+
+const cursor = createReducer(
+  {
+    line: 0,
+    char: 0,
+    startOffset: 0,
+    endOffset: 0
+  },
+  ((actionsHandlersMap = {}) => {
+    actionsHandlersMap[constants.EDITOR_MOVE_UP_CURSOR] = moveUpCursor;
+    actionsHandlersMap[constants.EDITOR_MOVE_DOWN_CURSOR] = moveDownCursor;
+    actionsHandlersMap[constants.EDITOR_MOVE_LEFT_CURSOR] = moveLeftCursor;
+    actionsHandlersMap[constants.EDITOR_MOVE_RIGHT_CURSOR] = moveRightCursor;
+    actionsHandlersMap[constants.EDITOR_LINE_CHANGED] = editLine;
+    return actionsHandlersMap;
+  })()
+);
 
 export default cursor;

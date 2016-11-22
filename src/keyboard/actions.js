@@ -13,16 +13,3 @@ export function editLine(text) {
     });
   }
 }
-
-export function moveCursor(direction, length = 1) {
-  return (dispatch, getState) => {
-    dispatch({
-      type: constants.EDITOR_MOVE_CURSOR,
-      payload: {
-        lines: getState().keyboard.lines,
-        direction,
-        length
-      }
-    });
-  }
-}

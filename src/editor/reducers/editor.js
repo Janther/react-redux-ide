@@ -90,13 +90,6 @@ const editor = function(state = {
         { text: action.text,
           lines: textIntoLines(action.text, state.grammar) }
       );
-    case constants.EDITOR_MOVE_CURSOR:
-    case constants.EDITOR_UPDATE_CHAR_SIZE:
-    case constants.EDITOR_INVALIDATE_CHAR_SIZE:
-      return updateObject(
-        state,
-        { cursor: cursor(state.cursor, action) }
-      );
     default:
       return state;
   }
