@@ -19,11 +19,11 @@ const charSizeSelector = state => state.lines.charSize;
 export const cursorX = createSelector(
   cursorSelector,
   charSizeSelector,
-  (cursor, charSize) => Math.floor(cursor.char * charSize.defaultCharWidth)
+  (cursor, charSize) => Math.floor(cursor.charIndex * charSize.defaultCharWidth)
 )
 
 export const cursorY = createSelector(
   cursorSelector,
   charSizeSelector,
-  (cursor, charSize) => Math.floor(cursor.line * charSize.lineHeightInPixels)
+  (cursor, charSize) => Math.floor(cursor.lineIndex * charSize.lineHeightInPixels)
 )
