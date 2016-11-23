@@ -40,8 +40,8 @@ module.exports = {
     loaders: [
       { test: /\.cson$/, loader: "cson" },
       { test: /\.js$/, loaders: ['babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: CssPlugin.extract('css-loader?module!postcss-loader') },
-      { test: /\.less$/, loader: LessPlugin.extract('css-loader?module!postcss-loader!less-loader') }
+      { test: /\.css$/, loader: CssPlugin.extract('css?module!postcss') },
+      { test: /\.less$/, loader: LessPlugin.extract('css?module!postcss!less') }
     ]
   },
   resolveLoader: {
