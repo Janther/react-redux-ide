@@ -13,3 +13,19 @@ export function editLine(text) {
     });
   }
 }
+
+export function registerShortcut(element, shortcut, actionType, dispatch) {
+  Mousetrap(element).bind(shortcut, function(e) {
+    dispatch((dispatch, getState) => {
+      dispatch({
+        type: actionType,
+        payload: {
+          shortcut: shortcut,
+          event: e,
+          lines: getState().keyboard.lines,
+          cursor: getState().keyboard.cursor
+        }
+      });
+    });
+  });
+};
