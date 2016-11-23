@@ -1,13 +1,14 @@
 import React, { PropTypes } from 'react'
-import atomStyles from '../editor/atomStyles';
+import classNames from 'classnames';
+import stylesheets from '../stylesheets';
 import styles from './styles.css';
 
 const GutterComponent = ({ lines }) => (
-  <div className={atomStyles['gutter-container']} >
-    <div className={atomStyles.gutter} >
-      <div className={atomStyles['line-numbers']} >
+  <div className={stylesheets['gutter-container']} >
+    <div className={stylesheets.gutter} >
+      <div className={stylesheets['line-numbers']} >
         {lines.map((line, index) => (
-          <div className={[styles['line-number'], atomStyles['line-number']].join(' ')} key={index}>
+          <div className={classNames(stylesheets['line-number'], styles['line-number'])} key={index}>
             {index + 1}
           </div>
         ))}

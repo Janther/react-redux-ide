@@ -10,7 +10,7 @@ const editLine = (state, action) => {
 
   let newLines;
 
-  if (lines.length == 1){
+  if (lines.length == 1) {
     newLines = [beforeOffsets + lines[0] + afterOffsets];
   } else {
     newLines = [
@@ -31,7 +31,7 @@ const backspace = (state, action) => {
   return state;
 }
 
-const lines = createReducer(
+export default createReducer(
   [ { value: '', syntax: false } ],
   ((actionsHandlersMap = {}) => {
     actionsHandlersMap[constants.EDITOR_LINE_CHANGED] = editLine;
@@ -39,5 +39,3 @@ const lines = createReducer(
     return actionsHandlersMap;
   })()
 );
-
-export default lines;

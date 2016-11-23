@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import atomStyles from '../../editor/atomStyles';
+import classNames from 'classnames';
+import stylesheets from '../../stylesheets';
 import styles from './Line.css';
 import Token from './Token';
 
@@ -31,7 +32,7 @@ class DummyLine extends Component {
     ]
 
     return (
-      <div className={[styles.line, atomStyles.line].join(' ')} style={style} >
+      <div className={classNames(styles.line, stylesheets.line)} style={style} >
         {tokens.map(function(node, index) {
           return (<Token node={node} key={index} />)
         })}

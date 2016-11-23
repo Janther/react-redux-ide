@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
+import stylesheets from '../stylesheets';
 import Line from './components/Line';
 import DummyLine from './components/DummyLine';
-import atomStyles from '../editor/atomStyles';
 
-const LinesComponent = ({ lines, invalidCharSize, updateCharSize }) => {
+const LinesComponent = ({ lines, cursorLine, invalidCharSize, updateCharSize }) => {
   let linesStyles = {
     height: "0px",
     backgroundColor: "rgb(40, 44, 52)"
@@ -13,11 +13,11 @@ const LinesComponent = ({ lines, invalidCharSize, updateCharSize }) => {
     zIndex: 0
   }
   return (
-    <div className={atomStyles.lines} style={linesStyles} >
+    <div className={stylesheets.lines} style={linesStyles} >
       <div style={isolationStyles}>
         {invalidCharSize && <DummyLine updateCharSize={updateCharSize}/>}
         {lines.map(function(line, index) {
-          return <Line line={line} key={index} />
+          return <Line line={line} isCursorLine={cursorLine == index} key={index} />
         })}
       </div>
     </div>
@@ -26,6 +26,7 @@ const LinesComponent = ({ lines, invalidCharSize, updateCharSize }) => {
 
 LinesComponent.propTypes = {
   lines: PropTypes.array.isRequired,
+  cursorLine: PropTypes.number.isRequired,
   invalidCharSize: PropTypes.bool.isRequired,
   updateCharSize: PropTypes.func.isRequired
 }

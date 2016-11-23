@@ -1,20 +1,21 @@
 import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 import GutterContainer from '../gutter/container';
 import LinesContainer from '../lines/container'
 import CursorContainer from '../cursor/container'
 import KeyboardContainer from '../keyboard/container'
-import atomStyles from './atomStyles';
+import stylesheets from '../stylesheets';
 import styles from './styles.css';
 
 const Editor = () => {
   return (
     <div>
       <KeyboardContainer />
-      <div className={[styles['atom-text-editor'], atomStyles['atom-text-editor'], atomStyles["is-focused"]].join(' ')}>
-        <div className={atomStyles["editor--private"]}>
-          <div className={atomStyles["editor-contents--private"]}>
+      <div className={classNames(styles['atom-text-editor'], stylesheets['atom-text-editor'], stylesheets["is-focused"])}>
+        <div className={stylesheets["editor--private"]}>
+          <div className={stylesheets["editor-contents--private"]}>
             <GutterContainer />
-            <div className={atomStyles["scroll-view"]}>
+            <div className={stylesheets["scroll-view"]}>
               <LinesContainer />
               <CursorContainer />
             </div>

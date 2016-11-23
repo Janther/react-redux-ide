@@ -96,11 +96,10 @@ const editLine = (state, action) => {
 }
 
 const backspace = (state, action) => {
-  if (state.startOffset == state.charIndex) return state;
   return moveLeftCursor(state, action);
 }
 
-const cursor = createReducer(
+export default createReducer(
   {
     lineIndex: 0,
     charIndex: 0,
@@ -117,5 +116,3 @@ const cursor = createReducer(
     return actionsHandlersMap;
   })()
 );
-
-export default cursor;

@@ -13,7 +13,7 @@ const clearTextarea = () => {
   return '';
 };
 
-const textarea = createReducer(
+export default createReducer(
   '',
   ((actionsHandlersMap = {}) => {
     actionsHandlersMap[constants.EDITOR_LINE_CHANGED] = keepTextarea;
@@ -25,5 +25,3 @@ const textarea = createReducer(
     return actionsHandlersMap;
   })()
 );
-
-export default textarea;

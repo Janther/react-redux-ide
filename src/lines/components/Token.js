@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import syntax from './Syntax.less';
+import stylesheets from '../../stylesheets';
 
 const styles = function(scope) {
   return scope.split('.').map(function(className){
-    return syntax["syntax--" + className];
+    return stylesheets["syntax--" + className];
   }).join(' ');
 }
 
