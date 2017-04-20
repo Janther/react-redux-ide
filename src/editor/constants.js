@@ -1,0 +1,1 @@
+export const EDITOR_FOCUSED = 'EDITOR_FOCUSED';
