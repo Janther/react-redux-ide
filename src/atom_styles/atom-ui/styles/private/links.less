@@ -1,0 +1,20 @@
+// Import from the ui theme's variables with a fallback to ./variables/syntax-variables.less
+@import "../../../atom/static/variables/ui-variables";
+@import "../../../one-dark-ui/styles/ui-variables";
+@import "../mixins/mixins";
+
+// Links
+
+a {
+  cursor: pointer;
+  color: @text-color-highlight;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    color: @text-color-highlight;
+    text-decoration: underline;
+  }
+  &:focus {
+    .tab-focus();
+  }
+}

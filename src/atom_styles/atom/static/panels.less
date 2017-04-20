@@ -1,0 +1,27 @@
+// Import from the ui theme's variables with a fallback to ./variables/ui-variables.less
+@import "./variables/ui-variables";
+@import "../../one-dark-ui/styles/ui-variables";
+
+// Atom panels
+
+.atom-panel-container.left,
+.atom-panel-container.right {
+  display: flex;
+}
+
+.tool-panel, // deprecated: .tool-panel
+.atom-panel {
+  display: block;
+  position: relative;
+}
+
+.atom-panel-container > .atom-panel.left,
+.atom-panel-container > .atom-panel.right {
+  display: flex;
+}
+
+// Some packages use `height: 100%` which doesn't play nice with flexbox
+.atom-panel-container > .atom-panel.left > *,
+.atom-panel-container > .atom-panel.right > * {
+  height: initial;
+}
