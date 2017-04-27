@@ -6,6 +6,7 @@
     "react-scripts": "^0.9.5"
   },
   "dependencies": {
+    "atom-css": "https://github.com/Janther/atom-css.git",
     "classnames": "^2.2.5",
     "less": "^2.7.2",
     "lodash.frompairs": "^4.0.1",

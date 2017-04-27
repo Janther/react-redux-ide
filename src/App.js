@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
+import 'atom-css';
 import Editor from './editor/Editor';
 
 const App = ({ editors }) => (
   <div>
-    {editors.map(function(editor, index) {
-      return <Editor editorId={editor} key={editor} />
-    })}
+    {editors.map((editor, index) => (
+      <Editor editorId={editor} key={editor} />
+    ))}
   </div>
 )
 
