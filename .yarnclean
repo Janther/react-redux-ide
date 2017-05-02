@@ -40,3 +40,6 @@ Gruntfile.js
 # misc
 *.gz
 *.md
+
+# atom-css images folder
+!atom-css/images
