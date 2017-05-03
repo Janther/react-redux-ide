@@ -43,3 +43,4 @@ Gruntfile.js
 
 # atom-css images folder
 !atom-css/images
+!svgo/.svgo.yml
