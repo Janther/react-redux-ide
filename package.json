@@ -9,7 +9,7 @@
     "atom-css": "https://github.com/Janther/atom-css.git",
     "classnames": "^2.2.5",
     "less": "^2.7.2",
-    "lodash.frompairs": "^4.0.1",
+    "lodash": "^4.17.4",
     "mousetrap": "^1.6.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",

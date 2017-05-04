@@ -3,9 +3,9 @@ import { createReducer } from './utils/reducerUtils';
 import * as constants from './constants';
 import keyboard from './keyboard/reducer';
 import lines from './lines/reducer';
-import fromPairs from 'lodash.frompairs';
+import fromPairs from 'lodash/fromPairs';
 
-const focusEditor = function(state, action) ({
+const focusEditor = (state, action) => ({
   ...state,
   selectedEditor: action.selectedEditor
 });

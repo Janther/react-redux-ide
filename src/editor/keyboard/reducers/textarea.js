@@ -1,6 +1,6 @@
 import * as constants from '../constants';
 import { createReducer } from '../../utils/reducerUtils';
-import fromPairs from 'lodash.frompairs';
+import fromPairs from 'lodash/fromPairs';
 
 const clearTextarea = () => {
   return '';
