@@ -1,10 +1,8 @@
 import * as constants from './constants';
 
-export function selectEditor(id) {
-  return {
-    type: constants.EDITOR_FOCUSED,
-    payload: {
-      selectedEditor: id
-    }
-  };
-}
+export const selectEditor = (id) => ({
+  type: constants.EDITOR_FOCUSED,
+  payload: {
+    selectedEditor: id
+  }
+})

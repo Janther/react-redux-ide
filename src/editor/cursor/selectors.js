@@ -3,8 +3,8 @@ import { createSelector } from 'reselect'
 //          isHalfWidthCharacter,
 //          isDoubleWidthCharacter } from './text_utils'
 
-const cursorSelector = state => state.janther.keyboard.cursor;
-const charSizeSelector = state => state.janther.lines.charSize;
+const cursorSelector = editor => editor.keyboard.cursor;
+const charSizeSelector = editor => editor.lines.charSize;
 
 // ratioForCharacter: (character) ->
 //   if isKoreanCharacter(character)

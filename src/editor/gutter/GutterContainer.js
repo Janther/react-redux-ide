@@ -1,16 +1,13 @@
 import { connect } from 'react-redux';
 import GutterComponent from './GutterComponent';
 
-const mapStateToProps = (state) => {
-  return {
-    lines: state.janther.keyboard.lines,
-    cursorLine: state.janther.keyboard.cursor.lineIndex
-  }
-}
+const mapStateToProps = (state) => ({
+  lines: state.janther.keyboard.lines,
+  cursorLine: state.janther.keyboard.cursor.lineIndex
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
+const mapDispatchToProps = (dispatch) => ({
+})
 
 const GutterContainer = connect(
   mapStateToProps,

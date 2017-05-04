@@ -20,27 +20,23 @@ const registerShortcut = (element, shortcut, actionType, dispatch) => {
   });
 };
 
-const mapStateToProps = (state) => {
-  return {
-    commands: state.janther.keyboard.commands,
-    textarea: state.janther.keyboard.textarea,
-    lines: state.janther.keyboard.lines
-  }
-};
+const mapStateToProps = ({ janther: editor }) => ({
+  commands: editor.keyboard.commands,
+  textarea: editor.keyboard.textarea,
+  lines: editor.keyboard.lines
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onChange: (text) => {
-      dispatch(editLine(text));
-    },
-    registerShortcut: (element, shortcut, actionType) => {
-      registerShortcut(element, shortcut, actionType, dispatch);
-    },
-    unRegisterShortcut: (element, shortcut) => {
-      Mousetrap(element).unbind(shortcut);
-    }
+const mapDispatchToProps = (dispatch) => ({
+  onChange(text) {
+    dispatch(editLine(text));
+  },
+  registerShortcut(element, shortcut, actionType) {
+    registerShortcut(element, shortcut, actionType, dispatch);
+  },
+  unRegisterShortcut(element, shortcut) {
+    Mousetrap(element).unbind(shortcut);
   }
-};
+});
 
 const KeyboardContainer = connect(
   mapStateToProps,
