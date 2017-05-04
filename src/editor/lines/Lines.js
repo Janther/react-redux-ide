@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Line from './components/Line';
 import DummyLine from './components/DummyLine';
 import classNames from 'classnames';
+import { updateCharSize } from './actions';
 
-const LinesComponent = ({ lines, cursorLine, invalidCharSize, lineHeightInPixels, updateCharSize }) => {
+const Lines = ({ lines, cursorLine, invalidCharSize, lineHeightInPixels, updateCharSize }) => {
   let isolationStyles = {
     isolation: 'isolate',
     zIndex: 0
@@ -29,7 +31,7 @@ const LinesComponent = ({ lines, cursorLine, invalidCharSize, lineHeightInPixels
   )
 }
 
-LinesComponent.propTypes = {
+Lines.propTypes = {
   lines: PropTypes.array.isRequired,
   cursorLine: PropTypes.number.isRequired,
   invalidCharSize: PropTypes.bool.isRequired,
@@ -37,4 +39,20 @@ LinesComponent.propTypes = {
   updateCharSize: PropTypes.func.isRequired
 }
 
-export default LinesComponent
+const mapStateToProps = ({ janther: editor }) => ({
+  lines: editor.keyboard.lines,
+  cursorLine: editor.keyboard.cursor.lineIndex,
+  invalidCharSize: editor.lines.invalidCharSize,
+  lineHeightInPixels: editor.lines.charSize.lineHeightInPixels
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateCharSize(size) {
+    dispatch(updateCharSize(size));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Lines)

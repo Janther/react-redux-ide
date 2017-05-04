@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const GutterComponent = ({ lines, cursorLine }) => (
+export const Gutter = ({ lines, cursorLine }) => (
   <div className={classNames('gutter-container')} >
     <div className={classNames('gutter')} >
       <div className={classNames('line-numbers')} >
@@ -17,9 +18,20 @@ const GutterComponent = ({ lines, cursorLine }) => (
   </div>
 )
 
-GutterComponent.propTypes = {
+Gutter.propTypes = {
   lines: PropTypes.array.isRequired,
   cursorLine: PropTypes.number.isRequired
 }
 
-export default GutterComponent
+const mapStateToProps = (state) => ({
+  lines: state.janther.keyboard.lines,
+  cursorLine: state.janther.keyboard.cursor.lineIndex
+})
+
+const mapDispatchToProps = (dispatch) => ({
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Gutter)

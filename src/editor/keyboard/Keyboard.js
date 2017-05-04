@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
+import { editLine } from './actions';
+import Mousetrap from 'mousetrap';
 
-class KeyboardComponent extends Component {
+export class Keyboard extends Component {
   componentDidMount() {
     let element = ReactDOM.findDOMNode(this);
 
@@ -44,7 +47,7 @@ class KeyboardComponent extends Component {
   }
 }
 
-KeyboardComponent.propTypes = {
+Keyboard.propTypes = {
   onChange: PropTypes.func.isRequired,
   commands: PropTypes.array.isRequired,
   textarea: PropTypes.string.isRequired,
@@ -52,4 +55,41 @@ KeyboardComponent.propTypes = {
   unRegisterShortcut: PropTypes.func.isRequired
 }
 
-export default KeyboardComponent
+const registerShortcut = (element, shortcut, actionType, dispatch) => {
+  Mousetrap(element).bind(shortcut, (e) => {
+    dispatch((dispatch, getState) => {
+      dispatch({
+        type: actionType,
+        payload: {
+          shortcut: shortcut,
+          event: e,
+          lines: getState().janther.keyboard.lines,
+          cursor: getState().janther.keyboard.cursor
+        }
+      });
+    });
+  });
+};
+
+const mapStateToProps = ({ janther: editor }) => ({
+  commands: editor.keyboard.commands,
+  textarea: editor.keyboard.textarea,
+  lines: editor.keyboard.lines
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onChange(text) {
+    dispatch(editLine(text));
+  },
+  registerShortcut(element, shortcut, actionType) {
+    registerShortcut(element, shortcut, actionType, dispatch);
+  },
+  unRegisterShortcut(element, shortcut) {
+    Mousetrap(element).unbind(shortcut);
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Keyboard);

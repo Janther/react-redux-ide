@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { cursorX, cursorY } from './selectors';
 
-const CursorComponent = ({ x, y, lineHeightInPixels }) => {
+export const Cursor = ({ x, y, lineHeightInPixels }) => {
   let styles = {
     transform: "translate(" + x + "px, " + y + "px)",
     height: lineHeightInPixels + "px",
@@ -16,9 +18,17 @@ const CursorComponent = ({ x, y, lineHeightInPixels }) => {
   )
 }
 
-CursorComponent.propTypes = {
+Cursor.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired
 }
 
-export default CursorComponent
+const mapStateToProps = ({ janther: editor }) => ({
+  x: cursorX(editor),
+  y: cursorY(editor),
+  lineHeightInPixels: editor.lines.charSize.lineHeightInPixels
+});
+
+export default connect(
+  mapStateToProps
+)(Cursor)
