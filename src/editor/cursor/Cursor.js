@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { cursorX, cursorY } from './selectors';
+import Blink from './Blink'
 
 export const Cursor = ({ x, y, lineHeightInPixels }) => {
   let styles = {
@@ -12,9 +13,13 @@ export const Cursor = ({ x, y, lineHeightInPixels }) => {
   }
 
   return (
-    <div className={classNames('cursors')} >
-      <div className={classNames('cursor')} style={styles}></div>
-    </div>
+    <Blink>
+      {({off}) => (
+        <div className={classNames('cursors', {'blink-off': off})} >
+          <div className={classNames('cursor')} style={styles}></div>
+        </div>
+      )}
+    </Blink>
   )
 }
 
