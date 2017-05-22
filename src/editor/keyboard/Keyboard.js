@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { editLine } from './actions';
+import { editLine, registerShortcut } from './actions';
 import Mousetrap from 'mousetrap';
 
 export class Keyboard extends Component {
@@ -54,22 +54,6 @@ Keyboard.propTypes = {
   registerShortcut: PropTypes.func.isRequired,
   unRegisterShortcut: PropTypes.func.isRequired
 }
-
-const registerShortcut = (element, shortcut, actionType, dispatch) => {
-  Mousetrap(element).bind(shortcut, (e) => {
-    dispatch((dispatch, getState) => {
-      dispatch({
-        type: actionType,
-        payload: {
-          shortcut: shortcut,
-          event: e,
-          lines: getState().janther.keyboard.lines,
-          cursor: getState().janther.keyboard.cursor
-        }
-      });
-    });
-  });
-};
 
 const mapStateToProps = ({ janther: editor }) => ({
   commands: editor.keyboard.commands,

@@ -6,7 +6,7 @@ import DummyLine from './components/DummyLine';
 import classNames from 'classnames';
 import { updateCharSize } from './actions';
 
-const Lines = ({ lines, cursorLine, invalidCharSize, lineHeightInPixels, updateCharSize }) => {
+export const Lines = ({ lines, cursorLine, invalidCharSize, lineHeightInPixels, updateCharSize }) => {
   let isolationStyles = {
     isolation: 'isolate',
     zIndex: 0
