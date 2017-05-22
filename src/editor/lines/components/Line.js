@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import StyledLine from './StyledLine';
 import Token from './Token';
 
 const Line = ({ line, isCursorLine, lineHeight }) => {
   let LineStyles = lineHeight ? { height: lineHeight } : {};
   return (
-    <div className={classNames('line', { 'cursor-line': isCursorLine })} style={LineStyles}>
+    <StyledLine cursorLine={isCursorLine} style={LineStyles}>
       { line.syntax && <Token node={line.node} />}
       {!line.syntax && line.value}
-    </div>
+    </StyledLine>
   )
 }
 

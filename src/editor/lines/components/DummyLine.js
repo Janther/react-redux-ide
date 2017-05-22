@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-// import styles from './Line.css';
+import StyledLine from './StyledLine';
 import Token from './Token';
 
 class DummyLine extends Component {
+  tokens = [
+    { scope: 'source', children: [ { value: 'x' } ] },
+    { scope: 'source', children: [ { value: '我' } ] },
+    { scope: 'source', children: [ { value: 'ﾊ' } ] },
+    { scope: 'source', children: [ { value: '세' } ] }
+  ];
+
   componentDidMount() {
     let dom_line = ReactDOM.findDOMNode(this);
     let size = {
@@ -18,27 +24,11 @@ class DummyLine extends Component {
     this.props.updateCharSize(size);
   }
 
-  render() {
-    let style = {
-      position: 'absolute',
-      visibility: 'hidden'
-    }
-
-    let tokens = [
-      { scope: 'source', children: [ { value: 'x' } ] },
-      { scope: 'source', children: [ { value: '我' } ] },
-      { scope: 'source', children: [ { value: 'ﾊ' } ] },
-      { scope: 'source', children: [ { value: '세' } ] }
-    ]
-
-    return (
-      <div className={classNames('line')} style={style} >
-        {tokens.map(function(node, index) {
-          return (<Token node={node} key={index} />)
-        })}
-      </div>
-    )
-  }
+  render = () => (
+    <StyledLine dummy>
+      {this.tokens.map((node, index) => (<Token node={node} key={index} />))}
+    </StyledLine>
+  )
 }
 
 DummyLine.propTypes = {

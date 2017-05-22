@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^0.9.5"
+    "react-scripts": "^1.0.3"
   },
   "dependencies": {
     "atom-css": "https://github.com/Janther/atom-css.git",
@@ -11,14 +11,16 @@
     "less": "^2.7.2",
     "lodash": "^4.17.4",
     "mousetrap": "^1.6.1",
-    "prop-types": "^15.5.8",
+    "node-uuid": "^1.4.8",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-redux": "^5.0.4",
+    "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-devtools": "^3.4.0",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.0"
+    "reselect": "^3.0.1",
+    "styled-components": "^1.4.6"
   },
   "scripts": {
     "build-css": "lessc src/App.less src/App.css",
