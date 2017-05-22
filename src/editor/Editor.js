@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Gutter from './gutter/Gutter';
 import Lines from './lines/Lines'
+import Highlights from './highlights/Highlights'
 import Cursor from './cursor/Cursor'
 import Keyboard from './keyboard/Keyboard'
 import { selectEditor } from './actions';
@@ -32,6 +33,7 @@ export class Editor extends Component {
               <Gutter />
               <div className={"scroll-view"}>
                 <Lines />
+                <Highlights />
                 <Cursor />
               </div>
             </div>
