@@ -5,52 +5,98 @@ describe('cursor reducer', () => {
   it('should return the initial state', () => {
     expect(
       reducer(undefined, {})
-    ).toEqual({
-      lineIndex: 0,
-      charIndex: 0,
-      startOffset: 0,
-      endOffset: 0
-    });
+    ).toMatchSnapshot();
   });
 
   it('should handle EDITOR_MOVE_CURSOR up', () => {
     expect(
       reducer({ lineIndex: 0, charIndex: 0 }, {
-        type: constants.EDITOR_MOVE_CURSOR,
+        type: constants.EDITOR_MOVE_UP_CURSOR,
         payload: {
-          lines: [],
-          direction: 'up'
+          lines: []
         }
       })
-    ).toEqual(
-      { lineIndex: 0, charIndex: 0 }
-    );
+    ).toMatchSnapshot();
+
+    expect(
+      reducer({ lineIndex: 0, charIndex: 0 }, {
+        type: constants.EDITOR_MOVE_UP_CURSOR,
+        payload: {
+          lines: [{
+            value: '1'
+          }]
+        }
+      })
+    ).toMatchSnapshot();
+
+    expect(
+      reducer({ lineIndex: 0, charIndex: 1 }, {
+        type: constants.EDITOR_MOVE_UP_CURSOR,
+        payload: {
+          lines: [{
+            value: '1'
+          }]
+        }
+      })
+    ).toMatchSnapshot();
 
     expect(
       reducer({ lineIndex: 2, charIndex: 0 }, {
-        type: constants.EDITOR_MOVE_CURSOR,
+        type: constants.EDITOR_MOVE_UP_CURSOR,
         payload: {
-          lines: [1, 2, 3],
-          direction: 'up'
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }, {
+            value: '3'
+          }]
         }
       })
-    ).toEqual(
-      { lineIndex: 1, charIndex: 0 }
-    );
+    ).toMatchSnapshot();
+
+    expect(
+      reducer({ lineIndex: 2, charIndex: 1 }, {
+        type: constants.EDITOR_MOVE_UP_CURSOR,
+        payload: {
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }, {
+            value: '3'
+          }]
+        }
+      })
+    ).toMatchSnapshot();
   });
 
   it('should handle EDITOR_MOVE_CURSOR down', () => {
     expect(
       reducer({ lineIndex: 1, charIndex: 0 }, {
-        type: constants.EDITOR_MOVE_CURSOR,
+        type: constants.EDITOR_MOVE_DOWN_CURSOR,
         payload: {
-          lines: [1, 2],
-          direction: 'down'
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }]
         }
       })
-    ).toEqual(
-      { lineIndex: 1, charIndex: 0 }
-    );
+    ).toMatchSnapshot();
+
+    expect(
+      reducer({ lineIndex: 0, charIndex: 0 }, {
+        type: constants.EDITOR_MOVE_DOWN_CURSOR,
+        payload: {
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }]
+        }
+      })
+    ).toMatchSnapshot();
   });
 
   it('should handle EDITOR_MOVE_CURSOR left', () => {
@@ -58,25 +104,27 @@ describe('cursor reducer', () => {
       reducer({ lineIndex: 0, charIndex: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
         payload: {
-          lines: [1, 2],
-          direction: 'left'
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }]
         }
       })
-    ).toEqual(
-      { lineIndex: 0, charIndex: 0 }
-    );
+    ).toMatchSnapshot();
 
     expect(
       reducer({ lineIndex: 0, charIndex: 2 }, {
         type: constants.EDITOR_MOVE_CURSOR,
         payload: {
-          lines: [1, 2],
-          direction: 'left'
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }]
         }
       })
-    ).toEqual(
-      { lineIndex: 0, charIndex: 1 }
-    );
+    ).toMatchSnapshot();
   });
 
   it('should handle EDITOR_MOVE_CURSOR right', () => {
@@ -84,12 +132,13 @@ describe('cursor reducer', () => {
       reducer({ lineIndex: 0, charIndex: 0 }, {
         type: constants.EDITOR_MOVE_CURSOR,
         payload: {
-          lines: [1, 2],
-          direction: 'right'
+          lines: [{
+            value: '1'
+          }, {
+            value: '2',
+          }]
         }
       })
-    ).toEqual(
-      { lineIndex: 0, charIndex: 1 }
-    );
+    ).toMatchSnapshot();
   });
 })
