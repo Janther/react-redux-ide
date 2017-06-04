@@ -7,7 +7,11 @@ const commands = function(
     { shortcut: "down", actionType: constants.EDITOR_MOVE_DOWN_CURSOR },
     { shortcut: "left", actionType: constants.EDITOR_MOVE_LEFT_CURSOR },
     { shortcut: "right", actionType: constants.EDITOR_MOVE_RIGHT_CURSOR },
-    { shortcut: "backspace", actionType: constants.EDITOR_BACKSPACE }
+    { shortcut: "backspace", actionType: constants.EDITOR_BACKSPACE },
+    { shortcut: "shift+up", actionType: constants.EDITOR_SELECT_UP },
+    { shortcut: "shift+down", actionType: constants.EDITOR_SELECT_DOWN },
+    { shortcut: "shift+left", actionType: constants.EDITOR_SELECT_LEFT },
+    { shortcut: "shift+right", actionType: constants.EDITOR_SELECT_RIGHT }
   ],
   action
 ) {
