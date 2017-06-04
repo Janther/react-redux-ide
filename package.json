@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^1.0.3"
+    "react-scripts": "^1.0.7"
   },
   "dependencies": {
     "atom-css": "https://github.com/Janther/atom-css.git",
@@ -20,7 +20,7 @@
     "redux-devtools": "^3.4.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
-    "styled-components": "^1.4.6"
+    "styled-components": "^2.0.0"
   },
   "scripts": {
     "build-css": "lessc src/App.less src/App.css",
