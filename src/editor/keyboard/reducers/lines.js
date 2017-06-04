@@ -1,13 +1,13 @@
-import * as constants from '../constants';
-import fromPairs from 'lodash/fromPairs';
-import { createReducer } from '../../utils/reducerUtils';
+import * as constants from "../constants";
+import fromPairs from "lodash/fromPairs";
+import { createReducer } from "../../utils/reducerUtils";
 
 const editLine = (state, action) => {
   const lines = action.lines;
   const { lineIndex, startOffset, endOffset } = action.cursor;
   const currentLine = state[lineIndex].value;
-  const beforeOffsets = currentLine.slice(0, startOffset)
-  const afterOffsets = currentLine.slice(endOffset)
+  const beforeOffsets = currentLine.slice(0, startOffset);
+  const afterOffsets = currentLine.slice(endOffset);
 
   let updatedLines;
 
@@ -23,14 +23,16 @@ const editLine = (state, action) => {
 
   return [
     ...state.slice(0, lineIndex),
-    ...updatedLines.map((line) => { return { value: line, syntax: false } }),
+    ...updatedLines.map(line => {
+      return { value: line, syntax: false };
+    }),
     ...state.slice(lineIndex + 1)
   ];
 };
 
 const backspace = (state, action) => {
   const { lineIndex, charIndex } = action.cursor;
-  if (lineIndex === 0 && charIndex === 0) return state;
+  if (lineIndex === 0 && charIndex === 0) return state;
 
   const currentLine = state[lineIndex].value;
   const afterCursor = currentLine.slice(charIndex);
@@ -47,10 +49,12 @@ const backspace = (state, action) => {
 
   return [
     ...state.slice(0, lineIndexBeforeCursor),
-    ...updatedLines.map((line) => { return { value: line, syntax: false } }),
+    ...updatedLines.map(line => {
+      return { value: line, syntax: false };
+    }),
     ...state.slice(lineIndex + 1)
   ];
-}
+};
 
 const del = (state, action) => {
   const { lineIndex, charIndex } = action.cursor;
@@ -74,13 +78,15 @@ const del = (state, action) => {
 
   return [
     ...state.slice(0, lineIndex),
-    ...updatedLines.map((line) => { return { value: line, syntax: false } }),
+    ...updatedLines.map(line => {
+      return { value: line, syntax: false };
+    }),
     ...state.slice(lineIndexafterCursor)
   ];
-}
+};
 
 export default createReducer(
-  [ { value: '', syntax: false } ],
+  [{ value: "", syntax: false }],
   fromPairs([
     [constants.EDITOR_LINE_CHANGED, editLine],
     [constants.EDITOR_BACKSPACE, backspace],

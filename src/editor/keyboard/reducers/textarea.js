@@ -1,9 +1,9 @@
-import * as constants from '../constants';
-import { createReducer } from '../../utils/reducerUtils';
-import fromPairs from 'lodash/fromPairs';
+import * as constants from "../constants";
+import { createReducer } from "../../utils/reducerUtils";
+import fromPairs from "lodash/fromPairs";
 
 const clearTextarea = () => {
-  return '';
+  return "";
 };
 
 const keepTextarea = (state, action) => {
@@ -15,7 +15,7 @@ const keepTextarea = (state, action) => {
 };
 
 export default createReducer(
-  '',
+  "",
   fromPairs([
     [constants.EDITOR_LINE_CHANGED, keepTextarea],
     [constants.EDITOR_MOVE_UP_CURSOR, clearTextarea],

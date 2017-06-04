@@ -1,26 +1,30 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import { editLine, registerShortcut } from './actions';
-import Mousetrap from 'mousetrap';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import { editLine, registerShortcut } from "./actions";
+import Mousetrap from "mousetrap";
 
 export class Keyboard extends Component {
   componentDidMount() {
     let element = ReactDOM.findDOMNode(this);
 
-    this.props.commands.forEach((command) => {
-      this.props.registerShortcut(element, command.shortcut, command.actionType)
+    this.props.commands.forEach(command => {
+      this.props.registerShortcut(
+        element,
+        command.shortcut,
+        command.actionType
+      );
     });
   }
 
   componentWillUnmount() {
     let element = ReactDOM.findDOMNode(this);
 
-    this.props.commands.forEach((command) => {
-      this.props.unRegisterShortcut(element, command.shortcut)
+    this.props.commands.forEach(command => {
+      this.props.unRegisterShortcut(element, command.shortcut);
     });
-  };
+  }
 
   render() {
     const { onChange, textarea } = this.props;
@@ -31,19 +35,22 @@ export class Keyboard extends Component {
       tabIndex: "0"
     };
     const containerStyle = {
-      overflow: 'hidden',
-      position: 'relative',
-      width: '0',
-      height: '0'
-    }
+      overflow: "hidden",
+      position: "relative",
+      width: "0",
+      height: "0"
+    };
     return (
       <div style={containerStyle}>
         <textarea
           {...textareaProps}
-          onChange={e => { onChange(e.target.value); }}
-          value={textarea} />
+          onChange={e => {
+            onChange(e.target.value);
+          }}
+          value={textarea}
+        />
       </div>
-    )
+    );
   }
 }
 
@@ -53,15 +60,15 @@ Keyboard.propTypes = {
   textarea: PropTypes.string.isRequired,
   registerShortcut: PropTypes.func.isRequired,
   unRegisterShortcut: PropTypes.func.isRequired
-}
+};
 
-const mapStateToProps = ({ janther: editor }) => ({
+const mapStateToProps = ({ janther: editor }) => ({
   commands: editor.keyboard.commands,
   textarea: editor.keyboard.textarea,
   lines: editor.keyboard.lines
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   onChange(text) {
     dispatch(editLine(text));
   },
@@ -73,7 +80,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Keyboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Keyboard);

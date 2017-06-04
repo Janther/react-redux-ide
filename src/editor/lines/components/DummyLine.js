@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import StyledLine from './StyledLine';
-import Token from './Token';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ReactDOM from "react-dom";
+import StyledLine from "./StyledLine";
+import Token from "./Token";
 
 class DummyLine extends Component {
   tokens = [
-    { scope: 'source', children: [ { value: 'x' } ] },
-    { scope: 'source', children: [ { value: '我' } ] },
-    { scope: 'source', children: [ { value: 'ﾊ' } ] },
-    { scope: 'source', children: [ { value: '세' } ] }
+    { scope: "source", children: [{ value: "x" }] },
+    { scope: "source", children: [{ value: "我" }] },
+    { scope: "source", children: [{ value: "ﾊ" }] },
+    { scope: "source", children: [{ value: "세" }] }
   ];
 
   componentDidMount() {
@@ -24,15 +24,14 @@ class DummyLine extends Component {
     this.props.updateCharSize(size);
   }
 
-  render = () => (
+  render = () =>
     <StyledLine dummy>
-      {this.tokens.map((node, index) => (<Token node={node} key={index} />))}
-    </StyledLine>
-  )
+      {this.tokens.map((node, index) => <Token node={node} key={index} />)}
+    </StyledLine>;
 }
 
 DummyLine.propTypes = {
   updateCharSize: PropTypes.func.isRequired
-}
+};
 
-export default DummyLine
+export default DummyLine;

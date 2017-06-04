@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from "reselect";
 // import { isKoreanCharacter,
 //          isHalfWidthCharacter,
 //          isDoubleWidthCharacter } from './text_utils'
@@ -20,10 +20,11 @@ export const cursorX = createSelector(
   cursorSelector,
   charSizeSelector,
   (cursor, charSize) => Math.floor(cursor.charIndex * charSize.defaultCharWidth)
-)
+);
 
 export const cursorY = createSelector(
   cursorSelector,
   charSizeSelector,
-  (cursor, charSize) => Math.floor(cursor.lineIndex * charSize.lineHeightInPixels)
-)
+  (cursor, charSize) =>
+    Math.floor(cursor.lineIndex * charSize.lineHeightInPixels)
+);

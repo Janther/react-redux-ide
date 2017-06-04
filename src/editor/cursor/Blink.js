@@ -1,11 +1,11 @@
-import { Component } from 'react';
+import { Component } from "react";
 
 export default class Blink extends Component {
-  state = {off: false};
+  state = { off: false };
 
   componentDidMount() {
     this._interval = setInterval(
-      () => this.setState({off: !this.state.off}),
+      () => this.setState({ off: !this.state.off }),
       500
     );
   }
@@ -15,7 +15,7 @@ export default class Blink extends Component {
   }
 
   render() {
-    let {children: renderFn} = this.props;
-    return renderFn({off: this.state.off});
+    let { children: renderFn } = this.props;
+    return renderFn({ off: this.state.off });
   }
 }

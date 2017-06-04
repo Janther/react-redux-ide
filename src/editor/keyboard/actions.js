@@ -1,22 +1,20 @@
-import * as constants from './constants';
-import Mousetrap from 'mousetrap';
+import * as constants from "./constants";
+import Mousetrap from "mousetrap";
 
-const regularExpresionNewLines=/\r\n|\n\r|\n|\r/g;
+const regularExpresionNewLines = /\r\n|\n\r|\n|\r/g;
 
-export const editLine = (text) => (
-  (dispatch, getState) => {
-    dispatch({
-      type: constants.EDITOR_LINE_CHANGED,
-      payload: {
-        cursor: getState().janther.keyboard.cursor,
-        lines: text.split(regularExpresionNewLines)
-      }
-    });
-  }
-)
+export const editLine = text => (dispatch, getState) => {
+  dispatch({
+    type: constants.EDITOR_LINE_CHANGED,
+    payload: {
+      cursor: getState().janther.keyboard.cursor,
+      lines: text.split(regularExpresionNewLines)
+    }
+  });
+};
 
 export const registerShortcut = (element, shortcut, actionType, dispatch) => {
-  Mousetrap(element).bind(shortcut, (e) => {
+  Mousetrap(element).bind(shortcut, e => {
     dispatch((dispatch, getState) => {
       dispatch({
         type: actionType,

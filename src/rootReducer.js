@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import janther from './editor/reducer';
+import { combineReducers } from "redux";
+import janther from "./editor/reducer";
 
 const rootReducer = combineReducers({
   janther

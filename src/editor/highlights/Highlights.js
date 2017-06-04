@@ -1,19 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import styled from 'styled-components';
+import React from "react";
+import { connect } from "react-redux";
+// import PropTypes from 'prop-types';
+import classNames from "classnames";
+import styled from "styled-components";
 
 const StyledRegion = styled.div.attrs({
-  className: classNames('region'),
+  className: classNames("region")
 })`
-  ${'' /* animation-name: flash;
+  ${"" /* animation-name: flash;
   animation-duration: .5s;
   animation-iteration-count: 1; */}
-`
+`;
 
 const StyledHighlight = styled.div.attrs({
-  className: classNames('highlight', 'selection')
+  className: classNames("highlight", "selection")
 })`
   background: none;
   border-radius: 2px;
@@ -27,25 +27,34 @@ const StyledHighlight = styled.div.attrs({
   }
 `;
 
-const Highlights = () => (
-  <div className={classNames('highlights')}>
+const Highlights = () =>
+  <div className={classNames("highlights")}>
     <StyledHighlight>
-      <StyledRegion style={{boxSizing: 'border-box', top: '0px',  left: '0px', right: '0px',  height: '21px'}}></StyledRegion>
-      <StyledRegion style={{boxSizing: 'border-box', top: '21px', left: '0px', width: '25px', height: '21px'}}></StyledRegion>
+      <StyledRegion
+        style={{
+          boxSizing: "border-box",
+          top: "0px",
+          left: "0px",
+          right: "0px",
+          height: "21px"
+        }}
+      />
+      <StyledRegion
+        style={{
+          boxSizing: "border-box",
+          top: "21px",
+          left: "0px",
+          width: "25px",
+          height: "21px"
+        }}
+      />
     </StyledHighlight>
-  </div>
-)
+  </div>;
 
-Highlights.propTypes = {
-}
+Highlights.propTypes = {};
 
-const mapStateToProps = ({ janther: editor }) => ({
-});
+const mapStateToProps = ({ janther: editor }) => ({});
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = dispatch => ({});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Highlights)
+export default connect(mapStateToProps, mapDispatchToProps)(Highlights);
