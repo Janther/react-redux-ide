@@ -3,14 +3,7 @@ import { connect } from "react-redux";
 // import PropTypes from 'prop-types';
 import classNames from "classnames";
 import styled from "styled-components";
-
-const StyledRegion = styled.div.attrs({
-  className: classNames("region")
-})`
-  ${"" /* animation-name: flash;
-  animation-duration: .5s;
-  animation-iteration-count: 1; */}
-`;
+import Region, { StyledRegion } from "./Region";
 
 const StyledHighlight = styled.div.attrs({
   className: classNames("highlight", "selection")
@@ -30,7 +23,7 @@ const StyledHighlight = styled.div.attrs({
 const Highlights = () =>
   <div className={classNames("highlights")}>
     <StyledHighlight>
-      <StyledRegion
+      <Region
         style={{
           boxSizing: "border-box",
           top: "0px",
@@ -39,7 +32,7 @@ const Highlights = () =>
           height: "21px"
         }}
       />
-      <StyledRegion
+      <Region
         style={{
           boxSizing: "border-box",
           top: "21px",
