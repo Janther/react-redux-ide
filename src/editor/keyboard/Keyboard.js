@@ -2,8 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+import styled from "styled-components";
 import { editLine, registerShortcut } from "./actions";
 import Mousetrap from "mousetrap";
+
+const StyledTextareaContainer = styled.div`
+  overflow: "hidden",
+  position: "relative",
+  width: "0",
+  height: "0"
+`;
 
 export class Keyboard extends Component {
   componentDidMount() {
@@ -27,29 +35,19 @@ export class Keyboard extends Component {
   }
 
   render() {
-    const { onChange, textarea } = this.props;
-    const textareaProps = {
-      autoCorrect: "off",
-      autoCapitalize: "off",
-      spellCheck: "false",
-      tabIndex: "0"
-    };
-    const containerStyle = {
-      overflow: "hidden",
-      position: "relative",
-      width: "0",
-      height: "0"
-    };
     return (
-      <div style={containerStyle}>
+      <StyledTextareaContainer>
         <textarea
-          {...textareaProps}
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+          tabIndex="0"
           onChange={e => {
-            onChange(e.target.value);
+            this.props.onChange(e.target.value);
           }}
-          value={textarea}
+          value={this.props.textarea}
         />
-      </div>
+      </StyledTextareaContainer>
     );
   }
 }
