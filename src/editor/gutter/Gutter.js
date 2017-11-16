@@ -2,34 +2,37 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import StyledGutter from "./StyledGutter";
+import StyledLineNumbers from "./StyledLineNumbers";
+import StyledLineNumber from "./StyledLineNumber";
+import StyledIconRight from "./StyledIconRight";
 
-export const Gutter = ({ lines, cursorLine }) =>
+export const Gutter = ({ lines, cursorLineIndex }) => (
   <div className={classNames("gutter-container")}>
-    <div className={classNames("gutter")}>
-      <div className={classNames("line-numbers")}>
-        {lines.map((line, index) =>
-          <div
-            className={classNames("line-number", {
-              "cursor-line": cursorLine === index
-            })}
+    <StyledGutter>
+      <StyledLineNumbers>
+        {lines.map((line, index) => (
+          <StyledLineNumber
+            isCursorLine={cursorLineIndex === index}
             key={index}
           >
             {index + 1}
-            <div className={classNames("icon-right")} />
-          </div>
-        )}
-      </div>
-    </div>
-  </div>;
+            <StyledIconRight />
+          </StyledLineNumber>
+        ))}
+      </StyledLineNumbers>
+    </StyledGutter>
+  </div>
+);
 
 Gutter.propTypes = {
   lines: PropTypes.array.isRequired,
-  cursorLine: PropTypes.number.isRequired
+  cursorLineIndex: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({
   lines: state.janther.keyboard.lines,
-  cursorLine: state.janther.keyboard.cursor.lineIndex
+  cursorLineIndex: state.janther.keyboard.cursor.lineIndex
 });
 
 const mapDispatchToProps = dispatch => ({});
