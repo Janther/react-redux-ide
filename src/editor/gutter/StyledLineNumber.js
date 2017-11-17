@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import classNames from "classnames";
 
 const StyledLineNumber = styled.div`
   position: relative;
