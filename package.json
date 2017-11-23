@@ -3,30 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^1.0.7"
+    "prettier": "^1.8.2",
+    "react-scripts": "^1.0.13"
   },
   "dependencies": {
     "atom-css": "https://github.com/Janther/atom-css.git",
     "classnames": "^2.2.5",
+    "first-mate": "^7.0.9",
     "less": "^2.7.2",
     "lodash": "^4.17.4",
     "mousetrap": "^1.6.1",
     "node-uuid": "^1.4.8",
+    "onigurumajs": "^1.0.0",
     "prop-types": "^15.5.10",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-redux": "^5.0.5",
-    "redux": "^3.6.0",
+    "react": "^16.0.0",
+    "react-app-rewired": "^1.2.5",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "redux-devtools": "^3.4.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
-    "styled-components": "^2.0.0"
+    "styled-components": "^2.1.2"
   },
   "scripts": {
     "build-css": "lessc src/App.less src/App.css",
     "watch-css": "yarn run build-css && lessc src/App.less src/App.css",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
