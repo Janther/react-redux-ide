@@ -53,15 +53,21 @@ const buildBranch = function(branch, token) {
   });
 };
 
-// Grammar.prototype.tokenizeLines = function(text) {
-//   var line, lineNumber, lines, ruleStack, scopes, tags, _i, _len, _ref, _results;
+// First Mate Grammar JS
+// node_modules/first-mate/lib/grammar.js
+// Grammar.prototype.tokenizeLines = function(text, compatibilityMode) {
+//   var lastLine, line, lineNumber, lines, ruleStack, scopes, tags, _i, _len, _ref1, _results;
+//   if (compatibilityMode == null) {
+//     compatibilityMode = true;
+//   }
 //   lines = text.split('\n');
+//   lastLine = lines.length - 1;
 //   ruleStack = null;
 //   scopes = [];
 //   _results = [];
 //   for (lineNumber = _i = 0, _len = lines.length; _i < _len; lineNumber = ++_i) {
 //     line = lines[lineNumber];
-//     _ref = this.tokenizeLine(line, ruleStack, lineNumber === 0), tags = _ref.tags, ruleStack = _ref.ruleStack;
+//     _ref1 = this.tokenizeLine(line, ruleStack, lineNumber === 0, compatibilityMode, lineNumber !== lastLine), tags = _ref1.tags, ruleStack = _ref1.ruleStack;
 //     _results.push(this.registry.decodeTokens(line, tags, scopes));
 //   }
 //   return _results;
