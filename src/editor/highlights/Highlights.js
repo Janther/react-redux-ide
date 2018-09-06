@@ -20,29 +20,14 @@ const StyledHighlight = styled.div.attrs({
   }
 `;
 
-const Highlights = () =>
+const Highlights = () => (
   <div className={classNames("highlights")}>
     <StyledHighlight>
-      <Region
-        style={{
-          boxSizing: "border-box",
-          top: "0px",
-          left: "0px",
-          right: "0px",
-          height: "21px"
-        }}
-      />
-      <Region
-        style={{
-          boxSizing: "border-box",
-          top: "21px",
-          left: "0px",
-          width: "25px",
-          height: "21px"
-        }}
-      />
+      <Region lineNumber={0} lineStart={0} lineEnd={Infinity} />
+      <Region lineNumber={1} lineStart={25} lineEnd={50} />
     </StyledHighlight>
-  </div>;
+  </div>
+);
 
 Highlights.propTypes = {};
 
@@ -50,4 +35,7 @@ const mapStateToProps = ({ janther: editor }) => ({});
 
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Highlights);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Highlights);
