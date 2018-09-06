@@ -24,10 +24,13 @@ class DummyLine extends Component {
     this.props.updateCharSize(size);
   }
 
-  render = () =>
+  render = () => (
     <StyledLine dummy>
-      {this.tokens.map((node, index) => <Token node={node} key={index} />)}
-    </StyledLine>;
+      {this.tokens.map((node, index) => (
+        <Token node={node} key={index} />
+      ))}
+    </StyledLine>
+  );
 }
 
 DummyLine.propTypes = {

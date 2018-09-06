@@ -78,4 +78,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Keyboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Keyboard);
