@@ -24,7 +24,6 @@ const Highlights = () => (
   <div className={classNames("highlights")}>
     <StyledHighlight>
       <Region lineNumber={0} lineStart={0} lineEnd={Infinity} />
-      <Region lineNumber={1} lineStart={25} lineEnd={50} />
     </StyledHighlight>
   </div>
 );

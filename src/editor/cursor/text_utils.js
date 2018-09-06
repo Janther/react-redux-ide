@@ -13,7 +13,7 @@ const isFullWidthForm = function(charCode) {
   );
 };
 
-export const isDoubleWidthCharacter = function(character) {
+const isDoubleWidthCharacter = function(character) {
   var charCode;
   charCode = character.charCodeAt(0);
   return (
@@ -23,7 +23,7 @@ export const isDoubleWidthCharacter = function(character) {
   );
 };
 
-export const isHalfWidthCharacter = function(character) {
+const isHalfWidthCharacter = function(character) {
   var charCode;
   charCode = character.charCodeAt(0);
   return (
@@ -32,7 +32,7 @@ export const isHalfWidthCharacter = function(character) {
   );
 };
 
-export const isKoreanCharacter = function(character) {
+const isKoreanCharacter = function(character) {
   var charCode;
   charCode = character.charCodeAt(0);
   return (
@@ -43,3 +43,15 @@ export const isKoreanCharacter = function(character) {
     (0xd7b0 <= charCode && charCode <= 0xd7ff)
   );
 };
+
+const ratioForCharacter = (character, charSize) => {
+  if (isKoreanCharacter(character))
+    return charSize.koreanCharWidth / charSize.defaultCharWidth;
+  if (isHalfWidthCharacter(character))
+    return charSize.halfWidthCharWidth / charSize.defaultCharWidth;
+  if (isDoubleWidthCharacter(character))
+    return charSize.doubleWidthCharWidth / charSize.defaultCharWidth;
+  return 1;
+};
+
+export default ratioForCharacter;
