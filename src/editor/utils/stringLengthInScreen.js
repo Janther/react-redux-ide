@@ -44,14 +44,24 @@ const isKoreanCharacter = function(character) {
   );
 };
 
-const ratioForCharacter = (character, charSize) => {
-  if (isKoreanCharacter(character))
-    return charSize.koreanCharWidth / charSize.defaultCharWidth;
-  if (isHalfWidthCharacter(character))
-    return charSize.halfWidthCharWidth / charSize.defaultCharWidth;
-  if (isDoubleWidthCharacter(character))
-    return charSize.doubleWidthCharWidth / charSize.defaultCharWidth;
-  return 1;
+const charLengthInScreen = (character, charSize) => {
+  if (isKoreanCharacter(character)) {
+    return charSize.koreanCharWidth;
+  }
+  if (isHalfWidthCharacter(character)) {
+    return charSize.halfWidthCharWidth;
+  }
+  if (isDoubleWidthCharacter(character)) {
+    return charSize.doubleWidthCharWidth;
+  }
+  return charSize.defaultCharWidth;
 };
 
-export default ratioForCharacter;
+const stringLengthInScreen = (str, charSize) =>
+  Math.floor(
+    str
+      .split("")
+      .reduce((length, char) => length + charLengthInScreen(char, charSize), 0)
+  );
+
+export default stringLengthInScreen;

@@ -1,18 +1,32 @@
 import { createSelector } from "reselect";
-// import ratioForCharacter from './text_utils'
+import stringLengthInScreen from "../utils/stringLengthInScreen";
 
-const cursorSelector = editor => editor.keyboard.cursor;
+const lineIndexSelector = editor => editor.keyboard.cursor.lineIndex;
+const charIndexSelector = editor => editor.keyboard.cursor.charIndex;
 const charSizeSelector = editor => editor.lines.charSize;
+const linesSelector = editor => editor.keyboard.lines;
+
+const cursorLineSelector = createSelector(
+  lineIndexSelector,
+  linesSelector,
+  (lineIndex, lines) => lines[lineIndex].value
+);
+
+const charsBeforeCursorSelector = createSelector(
+  charIndexSelector,
+  cursorLineSelector,
+  (charIndex, line) => line.substr(0, charIndex)
+);
 
 export const cursorX = createSelector(
-  cursorSelector,
+  charsBeforeCursorSelector,
   charSizeSelector,
-  (cursor, charSize) => Math.floor(cursor.charIndex * charSize.defaultCharWidth)
+  (charsBeforeCursor, charSize) =>
+    stringLengthInScreen(charsBeforeCursor, charSize)
 );
 
 export const cursorY = createSelector(
-  cursorSelector,
+  lineIndexSelector,
   charSizeSelector,
-  (cursor, charSize) =>
-    Math.floor(cursor.lineIndex * charSize.lineHeightInPixels)
+  (lineIndex, charSize) => Math.floor(lineIndex * charSize.lineHeightInPixels)
 );
