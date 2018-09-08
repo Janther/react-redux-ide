@@ -14,7 +14,7 @@ export function invalidateCharSize() {
 }
 
 export const lineClick = event => (dispatch, getState) => {
-  let boundingClientRect = event.target.getBoundingClientRect();
+  let boundingClientRect = event.currentTarget.getBoundingClientRect();
   let state = getState();
 
   dispatch({
