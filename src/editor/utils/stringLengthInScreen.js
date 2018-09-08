@@ -44,7 +44,7 @@ const isKoreanCharacter = function(character) {
   );
 };
 
-const charLengthInScreen = (character, charSize) => {
+export const charLengthInScreen = (character, charSize) => {
   if (isKoreanCharacter(character)) {
     return charSize.koreanCharWidth;
   }

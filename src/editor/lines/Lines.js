@@ -4,14 +4,15 @@ import PropTypes from "prop-types";
 import Line from "./components/Line";
 import DummyLine from "./components/DummyLine";
 import classNames from "classnames";
-import { updateCharSize } from "./actions";
+import { updateCharSize, lineClick } from "./actions";
 
 export const Lines = ({
   lines,
   cursorLine,
   invalidCharSize,
   lineHeightInPixels,
-  updateCharSize
+  updateCharSize,
+  lineClick
 }) => {
   let isolationStyles = {
     isolation: "isolate",
@@ -22,23 +23,27 @@ export const Lines = ({
     backgroundColor: "rgb(40, 44, 52)"
   };
   return (
-    <div className={classNames("lines")} style={linesStyles}>
+    <div
+      className={classNames("lines")}
+      style={linesStyles}
+      onClick={e => {
+        lineClick(e);
+      }}
+    >
       <div style={isolationStyles}>
         {(() => {
           if (invalidCharSize) {
             return <DummyLine updateCharSize={updateCharSize} />;
           }
         })()}
-        {lines.map(function(line, index) {
-          return (
-            <Line
-              line={line}
-              isCursorLine={cursorLine === index}
-              lineHeight={lineHeightInPixels}
-              key={index}
-            />
-          );
-        })}
+        {lines.map((line, index) => (
+          <Line
+            line={line}
+            isCursorLine={cursorLine === index}
+            lineHeight={lineHeightInPixels}
+            key={index}
+          />
+        ))}
       </div>
     </div>
   );
@@ -62,6 +67,9 @@ const mapStateToProps = ({ janther: editor }) => ({
 const mapDispatchToProps = dispatch => ({
   updateCharSize(size) {
     dispatch(updateCharSize(size));
+  },
+  lineClick(event) {
+    dispatch(lineClick(event));
   }
 });
 

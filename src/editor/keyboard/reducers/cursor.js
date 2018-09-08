@@ -1,5 +1,6 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
+import { charLengthInScreen } from "../../utils/stringLengthInScreen";
 import { createReducer, updateObject } from "../../utils/reducerUtils";
 
 const resetOffsets = cursor => {
@@ -97,6 +98,57 @@ const backspace = (state, action) => {
   return moveLeftCursor(state, action);
 };
 
+function getIndex(chars, x) {
+  if (chars.length === 0) return 0;
+
+  // Shortcut for the actual value
+  if (x >= chars[chars.length - 1].start + chars[chars.length - 1].length)
+    return chars.length;
+  if (x < chars[0].start) return 0;
+
+  // Binary search of the value in the array
+  let min = 0;
+  let max = chars.length - 1;
+  let mid = Math.floor((max + min) / 2);
+
+  while (
+    (chars[mid].start > x || chars[mid].start + chars[mid].length < x) &&
+    max > min
+  ) {
+    if (chars[mid].start <= x) {
+      min = mid + 1;
+    } else {
+      max = mid - 1;
+    }
+    mid = Math.floor((max + min) / 2);
+  }
+  return mid + Math.round((x - chars[mid].start) / chars[mid].length);
+}
+
+const lineClicked = (state, action) => {
+  let newCursor = {};
+
+  newCursor.lineIndex = Math.floor(
+    action.y / action.charSize.lineHeightInPixels
+  );
+  let line = action.lines[newCursor.lineIndex].value;
+  newCursor.charIndex = getIndex(
+    line.split("").reduce((chars, char) => {
+      chars.push({
+        char: char,
+        start: chars.length
+          ? chars[chars.length - 1].start + chars[chars.length - 1].length
+          : 0,
+        length: charLengthInScreen(char, action.charSize)
+      });
+      return chars;
+    }, []),
+    action.x
+  );
+  resetOffsets(newCursor);
+  return updateObject(state, newCursor);
+};
+
 export default createReducer(
   {
     lineIndex: 0,
@@ -110,6 +162,7 @@ export default createReducer(
     [constants.EDITOR_MOVE_LEFT_CURSOR, moveLeftCursor],
     [constants.EDITOR_MOVE_RIGHT_CURSOR, moveRightCursor],
     [constants.EDITOR_LINE_CHANGED, editLine],
-    [constants.EDITOR_BACKSPACE, backspace]
+    [constants.EDITOR_BACKSPACE, backspace],
+    ["EDITOR_LINE_CLICKED", lineClicked]
   ])
 );
