@@ -9,7 +9,9 @@
   "dependencies": {
     "atom-css": "https://github.com/Janther/atom-css.git",
     "classnames": "^2.2.6",
+    "cson-loader": "^0.1.0",
     "first-mate": "https://github.com/Janther/first-mate.git#prepublished",
+    "language-css": "https://github.com/atom/language-css.git",
     "less": "^3.8.1",
     "lodash": "^4.17.10",
     "mousetrap": "^1.6.2",
