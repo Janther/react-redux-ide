@@ -22,6 +22,7 @@ export default createReducer(
     [constants.EDITOR_MOVE_DOWN_CURSOR, clearTextarea],
     [constants.EDITOR_MOVE_LEFT_CURSOR, clearTextarea],
     [constants.EDITOR_MOVE_RIGHT_CURSOR, clearTextarea],
-    [constants.EDITOR_BACKSPACE, clearTextarea]
+    [constants.EDITOR_BACKSPACE, clearTextarea],
+    ["EDITOR_LINE_CLICKED", clearTextarea]
   ])
 );

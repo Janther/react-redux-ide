@@ -145,8 +145,7 @@ const lineClicked = (state, action) => {
     }, []),
     action.x
   );
-  resetOffsets(newCursor);
-  return updateObject(state, newCursor);
+  return updateObject(state, resetOffsets(newCursor));
 };
 
 export default createReducer(
