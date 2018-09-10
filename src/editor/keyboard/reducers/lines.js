@@ -1,5 +1,6 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
+import { grammarRegistry } from "../../utils/grammars";
 import { createReducer } from "../../utils/reducerUtils";
 
 const editLine = (state, action) => {
