@@ -1,7 +1,42 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
-import { grammarRegistry } from "../../utils/grammars";
+import { cssGrammar, grammarRegistry } from "../../utils/grammars";
 import { createReducer } from "../../utils/reducerUtils";
+import buildBranch from "./utils/buildBranch";
+
+const tokenizeLines = (updatedLines, lineIndex, state) => {
+  let ruleStack =
+    lineIndex === 0 ? null : [...state[lineIndex - 1].finalRuleStack];
+  let scopes = lineIndex === 0 ? [] : [...state[lineIndex - 1].finalScopes];
+
+  return updatedLines.map((line, index) => {
+    let initialRuleStack = ruleStack === null ? null : [...ruleStack];
+    let initialScopes = [...scopes];
+    let tags;
+    ({ line, tags, ruleStack } = cssGrammar.tokenizeLine(
+      line,
+      initialRuleStack,
+      lineIndex === 0 && index === 0,
+      false, // compatibilityMode
+      lineIndex === state.length - 1 && index === updatedLines.length - 1
+    ));
+
+    let rootBranch = [];
+    grammarRegistry
+      .decodeTokens(line, tags, scopes)
+      .forEach(token => (rootBranch = buildBranch(rootBranch, token)));
+
+    return {
+      value: line,
+      syntax: true,
+      node: rootBranch[0],
+      initialRuleStack: initialRuleStack,
+      finalRuleStack: ruleStack === null ? null : [...ruleStack],
+      initialScopes: initialScopes,
+      finalScopes: [...scopes]
+    };
+  });
+};
 
 const editLine = (state, action) => {
   const lines = action.lines;
@@ -22,11 +57,11 @@ const editLine = (state, action) => {
     ];
   }
 
+  updatedLines = tokenizeLines(updatedLines, lineIndex, state);
+
   return [
     ...state.slice(0, lineIndex),
-    ...updatedLines.map(line => {
-      return { value: line, syntax: false };
-    }),
+    ...updatedLines,
     ...state.slice(lineIndex + 1)
   ];
 };
@@ -48,11 +83,11 @@ const backspace = (state, action) => {
     updatedLines = [state[lineIndex - 1].value + afterCursor];
   }
 
+  updatedLines = tokenizeLines(updatedLines, lineIndexBeforeCursor, state);
+
   return [
     ...state.slice(0, lineIndexBeforeCursor),
-    ...updatedLines.map(line => {
-      return { value: line, syntax: false };
-    }),
+    ...updatedLines,
     ...state.slice(lineIndex + 1)
   ];
 };
@@ -77,17 +112,27 @@ const del = (state, action) => {
     updatedLines = [beforeCursor + state[lineIndex + 1].value];
   }
 
+  updatedLines = tokenizeLines(updatedLines, lineIndex, state);
+
   return [
     ...state.slice(0, lineIndex),
-    ...updatedLines.map(line => {
-      return { value: line, syntax: false };
-    }),
+    ...updatedLines,
     ...state.slice(lineIndexafterCursor)
   ];
 };
 
 export default createReducer(
-  [{ value: "", syntax: false }],
+  [
+    {
+      value: "",
+      syntax: false,
+      node: {},
+      initialRuleStack: null,
+      finalRuleStack: null,
+      initialScopes: [],
+      finalScopes: []
+    }
+  ],
   fromPairs([
     [constants.EDITOR_LINE_CHANGED, editLine],
     [constants.EDITOR_BACKSPACE, backspace],

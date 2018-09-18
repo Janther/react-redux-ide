@@ -1,19 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
-const styles = function(scope) {
-  return scope
-    .split(".")
-    .map(function(className) {
-      return "syntax--" + className;
-    })
-    .join(" ");
-};
+const styles = scope =>
+  classNames(scope.split(".").map(className => "syntax--" + className));
 
 const Token = ({ node }) => {
   return (
     <span className={styles(node.scope)}>
-      {node.children.map(function(childNode, index) {
+      {node.children.map((childNode, index) => {
         if (childNode.children == null) {
           return childNode.value;
         }

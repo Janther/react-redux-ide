@@ -46,11 +46,11 @@ const buildBranch = function(branch, token) {
   // If there are child-scopes, and the current branch has children, and
   // the last scope of the branch does match the current scope.
   // the current branch's last scope's children are given as an attribute
-  return updateItemInArray(branch, branch.length - 1, node => {
-    return updateObject(node, {
+  return updateItemInArray(branch, branch.length - 1, node =>
+    updateObject(node, {
       children: buildBranch(node.children, childToken)
-    });
-  });
+    })
+  );
 };
 
 // First Mate Grammar JS
