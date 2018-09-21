@@ -4,38 +4,46 @@ import { cssGrammar, grammarRegistry } from "../../utils/grammars";
 import { createReducer } from "../../utils/reducerUtils";
 import buildBranch from "./utils/buildBranch";
 
-const tokenizeLines = (updatedLines, lineIndex, state) => {
-  let ruleStack =
-    lineIndex === 0 ? null : [...state[lineIndex - 1].finalRuleStack];
-  let scopes = lineIndex === 0 ? [] : [...state[lineIndex - 1].finalScopes];
+const newLine = (value = "") => ({
+  value: value,
+  syntax: false,
+  node: {},
+  initialRuleStack: null,
+  finalRuleStack: null,
+  initialScopes: [],
+  finalScopes: []
+});
 
-  return updatedLines.map((line, index) => {
-    let initialRuleStack = ruleStack === null ? null : [...ruleStack];
-    let initialScopes = [...scopes];
-    let tags;
-    ({ line, tags, ruleStack } = cssGrammar.tokenizeLine(
-      line,
-      initialRuleStack,
-      lineIndex === 0 && index === 0,
-      false, // compatibilityMode
-      lineIndex === state.length - 1 && index === updatedLines.length - 1
-    ));
+const tokenizeLines = (result, inputLine, index, lines) => {
+  let { finalRuleStack: ruleStack, finalScopes: scopes } =
+    index === 0 ? newLine() : result[index - 1];
+  let initialRuleStack = ruleStack === null ? null : [...ruleStack];
+  let initialScopes = [...scopes];
+  let tags;
+  let line = inputLine.value;
+  ({ line, tags, ruleStack } = cssGrammar.tokenizeLine(
+    line,
+    ruleStack === null ? null : [...ruleStack],
+    index === 0,
+    false, // compatibilityMode
+    index === lines.length - 1
+  ));
 
-    let rootBranch = [];
-    grammarRegistry
-      .decodeTokens(line, tags, scopes)
-      .forEach(token => (rootBranch = buildBranch(rootBranch, token)));
+  let rootBranch = [];
+  grammarRegistry
+    .decodeTokens(line, tags, scopes)
+    .forEach(token => (rootBranch = buildBranch(rootBranch, token)));
 
-    return {
-      value: line,
-      syntax: true,
-      node: rootBranch[0],
-      initialRuleStack: initialRuleStack,
-      finalRuleStack: ruleStack === null ? null : [...ruleStack],
-      initialScopes: initialScopes,
-      finalScopes: [...scopes]
-    };
+  result.push({
+    ...inputLine,
+    syntax: true,
+    node: rootBranch[0],
+    finalRuleStack: ruleStack === null ? null : [...ruleStack],
+    finalScopes: [...scopes],
+    initialRuleStack,
+    initialScopes
   });
+  return result;
 };
 
 const editLine = (state, action) => {
@@ -45,25 +53,20 @@ const editLine = (state, action) => {
   const beforeOffsets = currentLine.slice(0, startOffset);
   const afterOffsets = currentLine.slice(endOffset);
 
-  let updatedLines;
-
-  if (lines.length === 1) {
-    updatedLines = [beforeOffsets + lines[0] + afterOffsets];
-  } else {
-    updatedLines = [
-      beforeOffsets + lines[0],
-      ...lines.slice(1, -1),
-      lines[lines.length - 1] + afterOffsets
-    ];
-  }
-
-  updatedLines = tokenizeLines(updatedLines, lineIndex, state);
+  let updatedLines = (lines.length === 1
+    ? [beforeOffsets + lines[0] + afterOffsets]
+    : [
+        beforeOffsets + lines[0],
+        ...lines.slice(1, -1),
+        lines[lines.length - 1] + afterOffsets
+      ]
+  ).map(line => newLine(line));
 
   return [
     ...state.slice(0, lineIndex),
     ...updatedLines,
     ...state.slice(lineIndex + 1)
-  ];
+  ].reduce(tokenizeLines, []);
 };
 
 const backspace = (state, action) => {
@@ -74,22 +77,20 @@ const backspace = (state, action) => {
   const afterCursor = currentLine.slice(charIndex);
   let lineIndexBeforeCursor = lineIndex;
 
-  let updatedLines;
-
-  if (charIndex > 0) {
-    updatedLines = [currentLine.slice(0, charIndex - 1) + afterCursor];
-  } else {
+  if (charIndex === 0) {
     lineIndexBeforeCursor--;
-    updatedLines = [state[lineIndex - 1].value + afterCursor];
   }
 
-  updatedLines = tokenizeLines(updatedLines, lineIndexBeforeCursor, state);
+  let updatedLines = (charIndex > 0
+    ? [currentLine.slice(0, charIndex - 1) + afterCursor]
+    : (updatedLines = [state[lineIndex - 1].value + afterCursor])
+  ).map(line => newLine(line));
 
   return [
     ...state.slice(0, lineIndexBeforeCursor),
     ...updatedLines,
     ...state.slice(lineIndex + 1)
-  ];
+  ].reduce(tokenizeLines, []);
 };
 
 const del = (state, action) => {
@@ -103,16 +104,14 @@ const del = (state, action) => {
   const beforeCursor = currentLine.slice(0, charIndex);
   let lineIndexafterCursor = lineIndex + 1;
 
-  let updatedLines;
-
-  if (charIndex < currentLine.length) {
-    updatedLines = [beforeCursor + currentLine.slice(charIndex + 1)];
-  } else {
+  if (charIndex === currentLine.length) {
     lineIndexafterCursor++;
-    updatedLines = [beforeCursor + state[lineIndex + 1].value];
   }
 
-  updatedLines = tokenizeLines(updatedLines, lineIndex, state);
+  let updatedLines = (charIndex < currentLine.length
+    ? [beforeCursor + currentLine.slice(charIndex + 1)]
+    : [beforeCursor + state[lineIndex + 1].value]
+  ).map(line => newLine(line));
 
   return [
     ...state.slice(0, lineIndex),
@@ -122,17 +121,7 @@ const del = (state, action) => {
 };
 
 export default createReducer(
-  [
-    {
-      value: "",
-      syntax: false,
-      node: {},
-      initialRuleStack: null,
-      finalRuleStack: null,
-      initialScopes: [],
-      finalScopes: []
-    }
-  ],
+  [newLine()],
   fromPairs([
     [constants.EDITOR_LINE_CHANGED, editLine],
     [constants.EDITOR_BACKSPACE, backspace],
