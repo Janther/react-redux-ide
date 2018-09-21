@@ -6,8 +6,8 @@ const StyledIconRight = styled.div.attrs({
 })`
   display: inline-block;
   visibility: hidden;
-  opacity: .6;
-  padding: 0 .4em;
+  opacity: 0.6;
+  padding: 0 0.4em;
 
   &:before {
     content: "\\f0a3";
