@@ -18,12 +18,14 @@ const tokenizeLines = (result, inputLine, index, lines) => {
   let { finalRuleStack: ruleStack, finalScopes: scopes } =
     index === 0 ? newLine() : result[index - 1];
   let initialRuleStack = ruleStack === null ? null : [...ruleStack];
+  let finalRuleStack = ruleStack === null ? null : [...ruleStack];
   let initialScopes = [...scopes];
+  let finalScopes = [...scopes];
   let tags;
   let line = inputLine.value;
-  ({ line, tags, ruleStack } = cssGrammar.tokenizeLine(
+  ({ line, tags, ruleStack: finalRuleStack } = cssGrammar.tokenizeLine(
     line,
-    ruleStack === null ? null : [...ruleStack],
+    finalRuleStack,
     index === 0,
     false, // compatibilityMode
     index === lines.length - 1
@@ -31,17 +33,17 @@ const tokenizeLines = (result, inputLine, index, lines) => {
 
   let rootBranch = [];
   grammarRegistry
-    .decodeTokens(line, tags, scopes)
+    .decodeTokens(line, tags, finalScopes)
     .forEach(token => (rootBranch = buildBranch(rootBranch, token)));
 
   result.push({
     ...inputLine,
     syntax: true,
     node: rootBranch[0],
-    finalRuleStack: ruleStack === null ? null : [...ruleStack],
-    finalScopes: [...scopes],
     initialRuleStack,
-    initialScopes
+    finalRuleStack,
+    initialScopes,
+    finalScopes
   });
   return result;
 };
@@ -83,7 +85,7 @@ const backspace = (state, action) => {
 
   let updatedLines = (charIndex > 0
     ? [currentLine.slice(0, charIndex - 1) + afterCursor]
-    : (updatedLines = [state[lineIndex - 1].value + afterCursor])
+    : [state[lineIndex - 1].value + afterCursor]
   ).map(line => newLine(line));
 
   return [
@@ -117,7 +119,7 @@ const del = (state, action) => {
     ...state.slice(0, lineIndex),
     ...updatedLines,
     ...state.slice(lineIndexafterCursor)
-  ];
+  ].reduce(tokenizeLines, []);
 };
 
 export default createReducer(
