@@ -3,7 +3,7 @@
 module.exports = function override(config, env) {
   config.resolve.alias.oniguruma = "onigurumajs";
   config.resolve.extensions.push(".cson");
-  config.module.rules[1].oneOf.unshift({
+  config.module.rules[config.module.rules.length - 1].oneOf.unshift({
     test: /\.cson$/,
     loader: "cson-loader"
   });

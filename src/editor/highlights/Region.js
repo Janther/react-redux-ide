@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 // import PropTypes from 'prop-types';
 import classNames from "classnames";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const flash = keyframes`
   from {
@@ -13,12 +13,14 @@ const flash = keyframes`
   }
 `;
 
+const animationRule = css`
+  ${flash} 0.5s 1;
+`;
+
 export const StyledRegion = styled.div.attrs({
   className: classNames("region")
 })`
-  animation-name: ${flash};
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
+  animation: ${animationRule};
   box-sizing: border-box;
 `;
 
