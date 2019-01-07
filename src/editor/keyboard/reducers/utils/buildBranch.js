@@ -4,7 +4,7 @@ import {
   updateItemInArray
 } from "../../../utils/reducerUtils";
 
-const buildBranch = function(branch, token) {
+const buildBranch = (branch, token) => {
   let { value, scopes } = token;
 
   // If there is a single scope, it is appended with the value to the current
