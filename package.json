@@ -7,7 +7,7 @@
     "react-scripts": "^3.0.1"
   },
   "dependencies": {
-    "atom-css": "https://github.com/Janther/atom-css.git#7d61a10d7941ee762fc75303697a081082082da6",
+    "atom-css": "https://github.com/Janther/atom-css.git",
     "classnames": "^2.2.6",
     "cson-loader": "^0.1.0",
     "first-mate": "https://github.com/Janther/first-mate.git#prepublished",
