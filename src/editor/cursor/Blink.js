@@ -1,21 +1,39 @@
-import { Component } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export default class Blink extends Component {
-  state = { off: false };
+const Blink = ({ position, children: renderFn }) => {
+  const [off, setOff] = useState(false);
 
-  componentDidMount() {
-    this._interval = setInterval(
-      () => this.setState({ off: !this.state.off }),
-      500
-    );
-  }
+  useEffect(() => {
+    setOff(false);
+  }, [position]);
 
-  componentWillUnmount() {
-    clearInterval(this._interval);
-  }
+  useInterval(
+    () => {
+      setOff(!off);
+    },
+    500,
+    position
+  );
 
-  render() {
-    let { children: renderFn } = this.props;
-    return renderFn({ off: this.state.off });
-  }
+  return renderFn({ off: off });
+};
+
+function useInterval(callback, delay, reset) {
+  const savedCallback = useRef();
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  });
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    let id = setInterval(tick, delay);
+    return () => {
+      clearInterval(id);
+    };
+  }, [delay, reset]);
 }
+
+export default Blink;

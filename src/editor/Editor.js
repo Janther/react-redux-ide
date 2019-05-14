@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { useEffect, useRef } from "react";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import ReactDOM from "react-dom";
 import classNames from "classnames";
 import Gutter from "./gutter/Gutter";
 import Lines from "./lines/Lines";
@@ -10,50 +9,46 @@ import Cursor from "./cursor/Cursor";
 import Keyboard from "./keyboard/Keyboard";
 import { selectEditor } from "./actions";
 
-export class Editor extends Component {
-  componentDidMount() {
-    // const { selectedEditor, editorId } = this.props
-    this.keepFocus();
-  }
+const Editor = ({ selectedEditor, editorId, onClick }) => {
+  const element = useRef();
+  const keepFocus = () => {
+    let textArea = element.current.getElementsByTagName("TEXTAREA")[0];
+    textArea.focus();
+  };
 
-  keepFocus() {
-    let element = ReactDOM.findDOMNode(this).getElementsByTagName(
-      "TEXTAREA"
-    )[0];
-    element.focus();
-  }
+  useEffect(() => {
+    keepFocus();
+  }, []);
 
-  render() {
-    const { selectedEditor, editorId, onClick } = this.props;
-    return (
+  return (
+    <div
+      onClick={e => {
+        keepFocus();
+        onClick(editorId);
+      }}
+      ref={element}
+    >
+      {editorId}
+      <Keyboard hasFocus={selectedEditor === editorId} />
       <div
-        onClick={e => {
-          this.keepFocus();
-          onClick(editorId);
-        }}
+        className={classNames("atom-text-editor", {
+          "is-focused": selectedEditor === editorId
+        })}
       >
-        {editorId}
-        <Keyboard hasFocus={selectedEditor === editorId} />
-        <div
-          className={classNames("atom-text-editor", {
-            "is-focused": selectedEditor === editorId
-          })}
-        >
-          <div className={"editor--private"}>
-            <div className={"editor-contents--private"}>
-              <Gutter />
-              <div className={"scroll-view"}>
-                <Lines />
-                <Highlights />
-                <Cursor />
-              </div>
+        <div className={"editor--private"}>
+          <div className={"editor-contents--private"}>
+            <Gutter />
+            <div className={"scroll-view"}>
+              <Lines />
+              <Highlights />
+              <Cursor />
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = ({ janther: editor }) => ({
   selectedEditor: editor.editors.selectedEditor

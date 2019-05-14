@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { editLine, registerShortcut } from "./actions";
 import Mousetrap from "mousetrap";
@@ -13,57 +12,54 @@ const StyledTextareaContainer = styled.div`
   height: "0"
 `;
 
-export class Keyboard extends Component {
-  componentDidMount() {
-    let element = ReactDOM.findDOMNode(this);
+const Keyboard = ({
+  commands,
+  onChange,
+  value,
+  registerShortcut,
+  unRegisterShortcut
+}) => {
+  const element = useRef();
 
-    this.props.commands.forEach(command => {
-      this.props.registerShortcut(
-        element,
-        command.shortcut,
-        command.actionType
-      );
-    });
-  }
+  useEffect(() => {
+    let currentElement = element.current;
 
-  componentWillUnmount() {
-    let element = ReactDOM.findDOMNode(this);
-
-    this.props.commands.forEach(command => {
-      this.props.unRegisterShortcut(element, command.shortcut);
-    });
-  }
-
-  render() {
-    return (
-      <StyledTextareaContainer>
-        <textarea
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck="false"
-          tabIndex="0"
-          onChange={e => {
-            this.props.onChange(e.target.value);
-          }}
-          value={this.props.textarea}
-        />
-      </StyledTextareaContainer>
+    commands.forEach(command =>
+      registerShortcut(currentElement, command.shortcut, command.actionType)
     );
-  }
-}
+
+    return () =>
+      commands.forEach(command =>
+        unRegisterShortcut(currentElement, command.shortcut)
+      );
+  }, [commands, registerShortcut, unRegisterShortcut]);
+
+  return (
+    <StyledTextareaContainer>
+      <textarea
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
+        tabIndex="0"
+        onChange={e => onChange(e.target.value)}
+        value={value}
+        ref={element}
+      />
+    </StyledTextareaContainer>
+  );
+};
 
 Keyboard.propTypes = {
   onChange: PropTypes.func.isRequired,
   commands: PropTypes.array.isRequired,
-  textarea: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   registerShortcut: PropTypes.func.isRequired,
   unRegisterShortcut: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ janther: editor }) => ({
   commands: editor.keyboard.commands,
-  textarea: editor.keyboard.textarea,
-  lines: editor.keyboard.lines
+  value: editor.keyboard.textarea
 });
 
 const mapDispatchToProps = dispatch => ({

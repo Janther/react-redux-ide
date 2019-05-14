@@ -14,7 +14,7 @@ export const Cursor = ({ x, y, lineHeightInPixels }) => {
   };
 
   return (
-    <Blink>
+    <Blink position={`${x}-${y}`}>
       {({ off }) => (
         <StyledCursors blinkOff={off}>
           <StyledCursor style={styles} />
