@@ -2,7 +2,7 @@ import {
   updateObject,
   insertItemInArray,
   updateItemInArray
-} from "../../../utils/reducerUtils";
+} from "../../utils/reducerUtils";
 
 const buildBranch = (branch, token) => {
   let { value, scopes } = token;

@@ -1,6 +1,6 @@
 import * as constants from "../constants";
 
-const commands = function(
+const commands = (
   state = [
     { shortcut: "return", actionType: constants.EDITOR_NEW_LINE },
     { shortcut: "up", actionType: constants.EDITOR_MOVE_UP_CURSOR },
@@ -14,11 +14,6 @@ const commands = function(
     { shortcut: "shift+right", actionType: constants.EDITOR_SELECT_RIGHT }
   ],
   action
-) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+) => state;
 
 export default commands;

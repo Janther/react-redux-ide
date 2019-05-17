@@ -3,8 +3,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Line from "./components/Line";
 import DummyLine from "./components/DummyLine";
+import StyledLines from "./components/StyledLines";
+import StyledLinesIsolation from "./components/StyledLinesIsolation";
 import classNames from "classnames";
 import { updateCharSize, lineClick } from "./actions";
+import tokenizeLines from "./utils/tokenizeLines";
 
 export const Lines = ({
   lines,
@@ -14,29 +17,18 @@ export const Lines = ({
   updateCharSize,
   lineClick
 }) => {
-  let isolationStyles = {
-    isolation: "isolate",
-    zIndex: 0
-  };
-  let linesStyles = {
-    height: "0",
-    backgroundColor: "rgb(40, 44, 52)"
-  };
+  const tokenizedLines = lines.reduce(tokenizeLines, []);
+
   return (
-    <div
+    <StyledLines
       className={classNames("lines")}
-      style={linesStyles}
       onClick={e => {
         lineClick(e);
       }}
     >
-      <div style={isolationStyles}>
-        {(() => {
-          if (invalidCharSize) {
-            return <DummyLine updateCharSize={updateCharSize} />;
-          }
-        })()}
-        {lines.map((line, index) => (
+      <StyledLinesIsolation>
+        {invalidCharSize && <DummyLine updateCharSize={updateCharSize} />}
+        {tokenizedLines.map((line, index) => (
           <Line
             line={line}
             isCursorLine={cursorLine === index}
@@ -44,8 +36,8 @@ export const Lines = ({
             key={index}
           />
         ))}
-      </div>
-    </div>
+      </StyledLinesIsolation>
+    </StyledLines>
   );
 };
 

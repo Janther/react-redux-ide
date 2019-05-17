@@ -1,13 +1,12 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
 import { charLengthInScreen } from "../../utils/stringLengthInScreen";
-import { createReducer, updateObject } from "../../utils/reducerUtils";
+import { createReducer } from "../../utils/reducerUtils";
 
 const resetOffsets = cursor => {
-  return updateObject(cursor, {
-    startOffset: cursor.charIndex,
-    endOffset: cursor.charIndex
-  });
+  cursor.startOffset = cursor.charIndex;
+  cursor.endOffset = cursor.charIndex;
+  return cursor;
 };
 
 const charsInLine = (lines, index) => {
@@ -15,83 +14,71 @@ const charsInLine = (lines, index) => {
 };
 
 const moveUpCursor = (state, action) => {
-  let newCursor = {};
-
   if (state.lineIndex === 0) {
-    newCursor.charIndex = 0;
+    state.charIndex = 0;
   } else {
-    const actionLines = action.lines;
-    const previousLineLength = charsInLine(actionLines, state.lineIndex - 1);
-    newCursor.lineIndex = state.lineIndex - 1;
-    newCursor.charIndex = Math.min(previousLineLength, state.charIndex);
+    const previousLineLength = charsInLine(action.lines, state.lineIndex - 1);
+    state.lineIndex--;
+    state.charIndex = Math.min(previousLineLength, state.charIndex);
   }
 
-  return updateObject(state, resetOffsets(newCursor));
+  return resetOffsets(state);
 };
 
 const moveDownCursor = (state, action) => {
-  let newCursor = {};
   const actionLines = action.lines;
 
   if (state.lineIndex === actionLines.length - 1) {
-    newCursor.charIndex = charsInLine(actionLines, actionLines.length - 1);
+    state.charIndex = charsInLine(actionLines, actionLines.length - 1);
   } else {
     const nextLineLength = charsInLine(actionLines, state.lineIndex + 1);
-    newCursor.lineIndex = state.lineIndex + 1;
-    newCursor.charIndex = Math.min(nextLineLength, state.charIndex);
+    state.lineIndex++;
+    state.charIndex = Math.min(nextLineLength, state.charIndex);
   }
 
-  return updateObject(state, resetOffsets(newCursor));
+  return resetOffsets(state);
 };
 
 const moveLeftCursor = (state, action) => {
-  let newCursor = {};
-
   if (state.charIndex > 0) {
-    newCursor.charIndex = state.charIndex - 1;
+    state.charIndex--;
   } else if (state.lineIndex > 0) {
-    const actionLines = action.lines;
-    const previousLineLength = charsInLine(actionLines, state.lineIndex - 1);
-    newCursor.lineIndex = state.lineIndex - 1;
-    newCursor.charIndex = previousLineLength;
-  } else {
-    newCursor.charIndex = state.charIndex;
+    const previousLineLength = charsInLine(action.lines, state.lineIndex - 1);
+    state.lineIndex--;
+    state.charIndex = previousLineLength;
   }
 
-  return updateObject(state, resetOffsets(newCursor));
+  return resetOffsets(state);
 };
 
 const moveRightCursor = (state, action) => {
-  let newCursor = {};
   const actionLines = action.lines;
   const currentLineLength = charsInLine(actionLines, state.lineIndex);
 
   if (state.charIndex < currentLineLength) {
-    newCursor.charIndex = state.charIndex + 1;
+    state.charIndex++;
   } else if (state.lineIndex < actionLines.length - 1) {
-    newCursor.lineIndex = state.lineIndex + 1;
-    newCursor.charIndex = 0;
-  } else {
-    newCursor.charIndex = state.charIndex;
+    state.lineIndex++;
+    state.charIndex = 0;
   }
 
-  return updateObject(state, resetOffsets(newCursor));
+  return resetOffsets(state);
 };
 
 const editLine = (state, action) => {
-  let newCursor = {};
   const actionLines = action.lines;
 
   if (actionLines.length === 1) {
-    newCursor.endOffset = state.startOffset + actionLines[0].length;
-    newCursor.charIndex = newCursor.endOffset;
+    state.endOffset = state.startOffset + actionLines[0].length;
+    state.charIndex = state.endOffset;
   } else {
-    newCursor.lineIndex = state.lineIndex + actionLines.length - 1;
-    newCursor.charIndex = actionLines[actionLines.length - 1].length;
-    newCursor = resetOffsets(newCursor);
+    state.lineIndex = state.lineIndex + actionLines.length - 1;
+    state.charIndex = actionLines[actionLines.length - 1].length;
+
+    state = resetOffsets(state);
   }
 
-  return updateObject(state, newCursor);
+  return state;
 };
 
 const backspace = (state, action) => {
@@ -126,13 +113,9 @@ function getIndex(chars, x) {
 }
 
 const lineClicked = (state, action) => {
-  let newCursor = {};
-
-  newCursor.lineIndex = Math.floor(
-    action.y / action.charSize.lineHeightInPixels
-  );
-  let line = action.lines[newCursor.lineIndex].value;
-  newCursor.charIndex = getIndex(
+  state.lineIndex = Math.floor(action.y / action.charSize.lineHeightInPixels);
+  let line = action.lines[state.lineIndex].value;
+  state.charIndex = getIndex(
     line.split("").reduce((chars, char) => {
       chars.push({
         char: char,
@@ -145,7 +128,8 @@ const lineClicked = (state, action) => {
     }, []),
     action.x
   );
-  return updateObject(state, resetOffsets(newCursor));
+
+  return resetOffsets(state);
 };
 
 export default createReducer(

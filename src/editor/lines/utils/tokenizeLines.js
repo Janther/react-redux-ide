@@ -1,6 +1,6 @@
-import { cssGrammar, grammarRegistry } from "../../../utils/grammars";
+import { cssGrammar, grammarRegistry } from "../../utils/grammars";
 import buildBranch from "./buildBranch";
-import newLine from "./newLine";
+import newLine from "../../keyboard/reducers/utils/newLine";
 
 const tokenizeLines = (result, inputLine, index, lines) => {
   // if (inputLine.syntax) {

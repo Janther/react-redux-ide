@@ -1,7 +1,6 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
 import { createReducer } from "../../utils/reducerUtils";
-import tokenizeLines from "./utils/tokenizeLines";
 import newLine from "./utils/newLine";
 
 const editLine = (state, action) => {
@@ -20,11 +19,8 @@ const editLine = (state, action) => {
       ]
   ).map(line => newLine(line));
 
-  return [
-    ...state.slice(0, lineIndex),
-    ...updatedLines,
-    ...state.slice(lineIndex + 1)
-  ].reduce(tokenizeLines, []);
+  state.splice(lineIndex, 1, ...updatedLines);
+  return state;
 };
 
 const backspace = (state, action) => {
@@ -44,11 +40,12 @@ const backspace = (state, action) => {
     : [state[lineIndex - 1].value + afterCursor]
   ).map(line => newLine(line));
 
-  return [
-    ...state.slice(0, lineIndexBeforeCursor),
-    ...updatedLines,
-    ...state.slice(lineIndex + 1)
-  ].reduce(tokenizeLines, []);
+  state.splice(
+    lineIndexBeforeCursor,
+    lineIndex - lineIndexBeforeCursor + 1,
+    ...updatedLines
+  );
+  return state;
 };
 
 const del = (state, action) => {
@@ -71,11 +68,12 @@ const del = (state, action) => {
     : [beforeCursor + state[lineIndex + 1].value]
   ).map(line => newLine(line));
 
-  return [
-    ...state.slice(0, lineIndex),
-    ...updatedLines,
-    ...state.slice(lineIndexafterCursor)
-  ].reduce(tokenizeLines, []);
+  state.splice(
+    lineIndex,
+    lineIndexafterCursor - lineIndex + 1,
+    ...updatedLines
+  );
+  return state;
 };
 
 export default createReducer(

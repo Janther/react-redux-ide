@@ -1,7 +1,20 @@
 import * as constants from "./constants";
+import fromPairs from "lodash/fromPairs";
+import { createReducer } from "../utils/reducerUtils";
 
-const lines = function(
-  state = {
+const updateCharSize = (state, action) => {
+  state.invalidCharSize = false;
+  state.charSize = action.size;
+  return state;
+};
+
+const invalidateCharSize = (state, action) => {
+  state.invalidCharSize = true;
+  return state;
+};
+
+export default createReducer(
+  {
     invalidCharSize: true,
     charSize: {
       defaultCharWidth: 0,
@@ -11,23 +24,8 @@ const lines = function(
       lineHeightInPixels: 0
     }
   },
-  action
-) {
-  switch (action.type) {
-    case constants.EDITOR_UPDATE_CHAR_SIZE:
-      return {
-        ...state,
-        invalidCharSize: false,
-        charSize: action.size
-      };
-    case constants.EDITOR_INVALIDATE_CHAR_SIZE:
-      return {
-        ...state,
-        invalidCharSize: true
-      };
-    default:
-      return state;
-  }
-};
-
-export default lines;
+  fromPairs([
+    [constants.EDITOR_UPDATE_CHAR_SIZE, updateCharSize],
+    [constants.EDITOR_INVALIDATE_CHAR_SIZE, invalidateCharSize]
+  ])
+);
