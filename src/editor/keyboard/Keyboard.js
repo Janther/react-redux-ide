@@ -12,27 +12,19 @@ const StyledTextareaContainer = styled.div`
   height: "0"
 `;
 
-const Keyboard = ({
-  commands,
-  onChange,
-  value,
-  registerShortcut,
-  unRegisterShortcut
-}) => {
+const Keyboard = ({ commands, onChange, value, bindShortcut }) => {
   const element = useRef();
 
   useEffect(() => {
-    let currentElement = element.current;
+    let currentElement = Mousetrap(element.current);
 
     commands.forEach(command =>
-      registerShortcut(currentElement, command.shortcut, command.actionType)
+      bindShortcut(currentElement, command.shortcut, command.actionType)
     );
 
     return () =>
-      commands.forEach(command =>
-        unRegisterShortcut(currentElement, command.shortcut)
-      );
-  }, [commands, registerShortcut, unRegisterShortcut]);
+      commands.forEach(command => currentElement.unbind(command.shortcut));
+  }, [commands, bindShortcut]);
 
   return (
     <StyledTextareaContainer>
@@ -53,8 +45,7 @@ Keyboard.propTypes = {
   onChange: PropTypes.func.isRequired,
   commands: PropTypes.array.isRequired,
   value: PropTypes.string.isRequired,
-  registerShortcut: PropTypes.func.isRequired,
-  unRegisterShortcut: PropTypes.func.isRequired
+  bindShortcut: PropTypes.func.isRequired
 };
 
 const mapStateToProps = ({ janther: editor }) => ({
@@ -63,15 +54,9 @@ const mapStateToProps = ({ janther: editor }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onChange(text) {
-    dispatch(editLine(text));
-  },
-  registerShortcut(element, shortcut, actionType) {
-    registerShortcut(element, shortcut, actionType, dispatch);
-  },
-  unRegisterShortcut(element, shortcut) {
-    Mousetrap(element).unbind(shortcut);
-  }
+  onChange: text => dispatch(editLine(text)),
+  bindShortcut: (element, shortcut, actionType) =>
+    registerShortcut(element, shortcut, actionType, dispatch)
 });
 
 export default connect(

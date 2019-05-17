@@ -1,5 +1,4 @@
 import * as constants from "./constants";
-import Mousetrap from "mousetrap";
 
 const regularExpresionNewLines = /\r\n|\n\r|\n|\r/g;
 
@@ -14,7 +13,7 @@ export const editLine = text => (dispatch, getState) => {
 };
 
 export const registerShortcut = (element, shortcut, actionType, dispatch) => {
-  Mousetrap(element).bind(shortcut, e => {
+  element.bind(shortcut, e => {
     dispatch((dispatch, getState) => {
       dispatch({
         type: actionType,
