@@ -57,12 +57,8 @@ const mapStateToProps = ({ janther: editor }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateCharSize(size) {
-    dispatch(updateCharSize(size));
-  },
-  lineClick(event) {
-    dispatch(lineClick(event));
-  }
+  updateCharSize: size => dispatch(updateCharSize(size)),
+  lineClick: event => dispatch(lineClick(event))
 });
 
 export default connect(

@@ -55,9 +55,7 @@ const mapStateToProps = ({ janther: editor }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClick(editorId) {
-    dispatch(selectEditor(editorId));
-  }
+  onClick: editorId => dispatch(selectEditor(editorId))
 });
 
 export default connect(

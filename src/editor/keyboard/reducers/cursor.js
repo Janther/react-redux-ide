@@ -85,7 +85,7 @@ const backspace = (state, action) => {
   return moveLeftCursor(state, action);
 };
 
-function getIndex(chars, x) {
+const getIndex = (chars, x) => {
   if (chars.length === 0) return 0;
 
   // Shortcut for the actual value
@@ -110,7 +110,7 @@ function getIndex(chars, x) {
     mid = Math.floor((max + min) / 2);
   }
   return mid + Math.round((x - chars[mid].start) / chars[mid].length);
-}
+};
 
 const lineClicked = (state, action) => {
   state.lineIndex = Math.floor(action.y / action.charSize.lineHeightInPixels);

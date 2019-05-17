@@ -9,7 +9,7 @@ const enhancer = compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-export default function configureStore(initialState) {
+const configureStore = initialState => {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
@@ -19,4 +19,6 @@ export default function configureStore(initialState) {
   }
 
   return store;
-}
+};
+
+export default configureStore;

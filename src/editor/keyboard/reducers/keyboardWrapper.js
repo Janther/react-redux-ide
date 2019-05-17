@@ -1,5 +1,6 @@
 import * as constants from "../constants";
 import { createReducer } from "../../utils/reducerUtils";
+import fromPairs from "lodash/fromPairs";
 
 const subscribeKeyboard = (state, action) => {
   return action.keyboardId;
@@ -7,8 +8,5 @@ const subscribeKeyboard = (state, action) => {
 
 export default createReducer(
   "",
-  ((actionsHandlersMap = {}) => {
-    actionsHandlersMap[constants.SUBSCRIBE_KEYBOARD] = subscribeKeyboard;
-    return actionsHandlersMap;
-  })()
+  fromPairs([[constants.SUBSCRIBE_KEYBOARD, subscribeKeyboard]])
 );

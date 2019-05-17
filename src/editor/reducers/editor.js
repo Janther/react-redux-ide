@@ -7,7 +7,7 @@ import {
 } from "./reducerUtils";
 import cursor from "./cursor";
 
-const buildBranch = function(branch, token) {
+const buildBranch = (branch, token) => {
   let { value, scopes } = token;
 
   // If there is a single scope, it is appended with the value to the current
@@ -73,15 +73,11 @@ const buildBranch = function(branch, token) {
 //   return _results;
 // };
 
-const textIntoLines = function(text, grammar) {
+const textIntoLines = (text, grammar) => {
   const tokenizedLines = grammar.tokenizeLines(text);
-  const lines = tokenizedLines.map(function(tokens, index) {
+  const lines = tokenizedLines.map((tokens, index) => {
     if (index > 1000) {
-      line = tokens
-        .map(function(token) {
-          return token.value;
-        })
-        .join("");
+      line = tokens.map(token => token.value).join("");
       return {
         node: { scope: "source", children: [{ value: line }] },
         line: line
@@ -89,7 +85,7 @@ const textIntoLines = function(text, grammar) {
     }
     let rootBranch = [];
     let line = tokens
-      .map(function(token) {
+      .map(token => {
         rootBranch = buildBranch(rootBranch, token);
         return token.value;
       })
@@ -100,7 +96,7 @@ const textIntoLines = function(text, grammar) {
   return lines;
 };
 
-const editor = function(
+const editor = (
   state = {
     text: "",
     grammar: cssGrammar,
@@ -108,7 +104,7 @@ const editor = function(
     cursor: cursor(undefined, {})
   },
   action
-) {
+) => {
   switch (action.type) {
     case constants.EDITOR_TEXT_CHANGED:
     case constants.EDITOR_TEXT_ADDED:
