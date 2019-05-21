@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "prettier": "^1.17.0",
+    "prettier": "^1.17.1",
     "react-scripts": "^3.0.1"
   },
   "dependencies": {
@@ -12,11 +12,9 @@
     "cson-loader": "^0.1.0",
     "first-mate": "https://github.com/Janther/first-mate.git#prepublished",
     "immer": "^3.1.1",
-    "language-css": "https://github.com/atom/language-css.git",
-    "less": "^3.9.0",
+    "language-css": "https://github.com/atom/language-css.git#134444febae6030feb8c76647b9a46e534960aad",
     "lodash": "^4.17.11",
     "mousetrap": "^1.6.3",
-    "node-uuid": "^1.4.8",
     "onigurumajs": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
