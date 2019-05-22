@@ -20,7 +20,7 @@ const animationRule = css`
 export const StyledRegion = styled.div.attrs({
   className: classNames("region")
 })`
-  animation: ${animationRule};
+  /* animation: ${animationRule}; */
   box-sizing: border-box;
 `;
 

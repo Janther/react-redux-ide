@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-// import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { regions } from "./selectors";
 import classNames from "classnames";
 import styled from "styled-components";
 import Region, { StyledRegion } from "./Region";
@@ -20,17 +21,28 @@ const StyledHighlight = styled.div.attrs({
   }
 `;
 
-const Highlights = () => (
+const Highlights = ({ regions }) => (
   <div className={classNames("highlights")}>
     <StyledHighlight>
-      <Region lineNumber={0} lineStart={0} lineEnd={Infinity} />
+      {regions.map(({ lineNumber, lineStart, lineEnd }, index) => (
+        <Region
+          lineNumber={lineNumber}
+          lineStart={lineStart}
+          lineEnd={lineEnd}
+          key={index}
+        />
+      ))}
     </StyledHighlight>
   </div>
 );
 
-Highlights.propTypes = {};
+Highlights.propTypes = {
+  regions: PropTypes.array.isRequired
+};
 
-const mapStateToProps = ({ janther: editor }) => ({});
+const mapStateToProps = ({ janther: editor }) => ({
+  regions: regions(editor)
+});
 
 const mapDispatchToProps = dispatch => ({});
 
