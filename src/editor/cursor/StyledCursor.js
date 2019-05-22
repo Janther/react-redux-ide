@@ -7,6 +7,7 @@ const StyledCursor = styled.div`
   box-sizing: border-box;
   position: absolute;
   border-left: 2px solid #528bff;
+  width: 8px;
 `;
 
 export default StyledCursor;

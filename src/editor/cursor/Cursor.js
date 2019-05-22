@@ -9,8 +9,7 @@ import StyledCursor from "./StyledCursor";
 export const Cursor = ({ x, y, lineHeightInPixels }) => {
   let styles = {
     transform: "translate(" + x + "px, " + y + "px)",
-    height: lineHeightInPixels + "px",
-    width: "8px"
+    height: lineHeightInPixels + "px"
   };
 
   return (
