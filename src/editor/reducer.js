@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { createReducer } from "./utils/reducerUtils";
+import createReducer from "./utils/createReducer";
 import * as constants from "./constants";
 import keyboard from "./keyboard/reducer";
 import lines from "./lines/reducer";

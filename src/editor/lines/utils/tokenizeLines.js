@@ -23,13 +23,12 @@ const tokenizeLines = (result, inputLine, index, lines) => {
     index === lines.length - 1
   ));
 
-  let rootBranch = [];
-  grammarRegistry
+  const rootBranch = grammarRegistry
     .decodeTokens(line, tags, finalScopes)
-    .forEach(token => (rootBranch = buildBranch(rootBranch, token)));
+    .reduce(buildBranch, []);
 
   result.push({
-    ...inputLine,
+    value: inputLine.value,
     syntax: true,
     node: rootBranch[0],
     initialRuleStack,

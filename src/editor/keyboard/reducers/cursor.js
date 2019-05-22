@@ -2,7 +2,7 @@ import * as constants from "../constants";
 import * as caret from "./caret";
 import fromPairs from "lodash/fromPairs";
 import { charLengthInScreen } from "../../utils/stringLengthInScreen";
-import { createReducer } from "../../utils/reducerUtils";
+import createReducer from "../../utils/createReducer";
 
 const resetAnchor = cursor => {
   cursor.anchor.lineIndex = cursor.caret.lineIndex;

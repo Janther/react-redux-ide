@@ -1,6 +1,6 @@
 import * as constants from "./constants";
 import fromPairs from "lodash/fromPairs";
-import { createReducer } from "../utils/reducerUtils";
+import createReducer from "../utils/createReducer";
 
 const updateCharSize = (state, action) => {
   state.invalidCharSize = false;

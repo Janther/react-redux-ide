@@ -1,6 +1,6 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
-import { createReducer } from "../../utils/reducerUtils";
+import createReducer from "../../utils/createReducer";
 
 const newLine = (value = "") => ({
   value: value,
@@ -64,7 +64,14 @@ const backspace = (state, action) => {
 };
 
 const del = (state, action) => {
-  const { lineIndex, charIndex } = action.cursor.caret;
+  const { caret, anchor } = action.cursor;
+  if (
+    caret.lineIndex !== anchor.lineIndex ||
+    caret.charIndex !== anchor.charIndex
+  )
+    return editLine(state, { ...action, lines: [""] });
+
+  const { lineIndex, charIndex } = caret;
   const currentLine = state[lineIndex].value;
 
   if (lineIndex === state.length - 1 && charIndex === currentLine.length) {
