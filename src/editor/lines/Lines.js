@@ -46,7 +46,7 @@ Lines.propTypes = {
 
 const mapStateToProps = ({ janther: editor }) => ({
   lines: editor.keyboard.lines,
-  cursorLine: editor.keyboard.cursor.lineIndex,
+  cursorLine: editor.keyboard.cursor.caret.lineIndex,
   invalidCharSize: editor.lines.invalidCharSize,
   lineHeightInPixels: editor.lines.charSize.lineHeightInPixels
 });

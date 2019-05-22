@@ -32,7 +32,7 @@ Gutter.propTypes = {
 
 const mapStateToProps = state => ({
   lines: state.janther.keyboard.lines,
-  cursorLineIndex: state.janther.keyboard.cursor.lineIndex
+  cursorLineIndex: state.janther.keyboard.cursor.caret.lineIndex
 });
 
 const mapDispatchToProps = dispatch => ({});

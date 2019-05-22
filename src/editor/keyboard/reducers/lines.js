@@ -9,10 +9,10 @@ const newLine = (value = "") => ({
 
 const editLine = (state, action) => {
   const lines = action.lines;
-  const { lineIndex, startOffset, endOffset } = action.cursor;
-  const currentLine = state[lineIndex].value;
-  const beforeOffsets = currentLine.slice(0, startOffset);
-  const afterOffsets = currentLine.slice(endOffset);
+  const { caret, anchor, ltr } = action.cursor;
+  const [start, end] = ltr ? [anchor, caret] : [caret, anchor];
+  const beforeOffsets = state[start.lineIndex].value.slice(0, start.charIndex);
+  const afterOffsets = state[end.lineIndex].value.slice(end.charIndex);
 
   let updatedLines = (lines.length === 1
     ? [beforeOffsets + lines[0] + afterOffsets]
@@ -23,12 +23,23 @@ const editLine = (state, action) => {
       ]
   ).map(line => newLine(line));
 
-  state.splice(lineIndex, 1, ...updatedLines);
+  state.splice(
+    start.lineIndex,
+    end.lineIndex - start.lineIndex + 1,
+    ...updatedLines
+  );
   return state;
 };
 
 const backspace = (state, action) => {
-  const { lineIndex, charIndex } = action.cursor;
+  const { caret, anchor } = action.cursor;
+  if (
+    caret.lineIndex !== anchor.lineIndex ||
+    caret.charIndex !== anchor.charIndex
+  )
+    return editLine(state, { ...action, lines: [""] });
+
+  const { lineIndex, charIndex } = caret;
   if (lineIndex === 0 && charIndex === 0) return state;
 
   const currentLine = state[lineIndex].value;
@@ -53,7 +64,7 @@ const backspace = (state, action) => {
 };
 
 const del = (state, action) => {
-  const { lineIndex, charIndex } = action.cursor;
+  const { lineIndex, charIndex } = action.cursor.caret;
   const currentLine = state[lineIndex].value;
 
   if (lineIndex === state.length - 1 && charIndex === currentLine.length) {

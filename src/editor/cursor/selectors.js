@@ -1,8 +1,8 @@
 import { createSelector } from "reselect";
 import stringLengthInScreen from "../utils/stringLengthInScreen";
 
-const lineIndexSelector = editor => editor.keyboard.cursor.lineIndex;
-const charIndexSelector = editor => editor.keyboard.cursor.charIndex;
+const lineIndexSelector = editor => editor.keyboard.cursor.caret.lineIndex;
+const charIndexSelector = editor => editor.keyboard.cursor.caret.charIndex;
 const charSizeSelector = editor => editor.lines.charSize;
 const linesSelector = editor => editor.keyboard.lines;
 

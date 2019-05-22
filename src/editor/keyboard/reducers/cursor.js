@@ -1,88 +1,107 @@
 import * as constants from "../constants";
+import * as caret from "./caret";
 import fromPairs from "lodash/fromPairs";
 import { charLengthInScreen } from "../../utils/stringLengthInScreen";
 import { createReducer } from "../../utils/reducerUtils";
 
-const resetOffsets = cursor => {
-  cursor.startOffset = cursor.charIndex;
-  cursor.endOffset = cursor.charIndex;
+const resetAnchor = cursor => {
+  cursor.anchor.lineIndex = cursor.caret.lineIndex;
+  cursor.anchor.charIndex = cursor.caret.charIndex;
   return cursor;
 };
 
-const charsInLine = (lines, index) => {
-  return lines[index].value.length;
+const updateLTR = cursor => {
+  cursor.ltr =
+    cursor.anchor.lineIndex === cursor.caret.lineIndex
+      ? cursor.anchor.charIndex <= cursor.caret.charIndex
+      : cursor.anchor.lineIndex <= cursor.caret.lineIndex;
+  return cursor;
 };
 
-const moveUpCursor = (state, action) => {
-  if (state.lineIndex === 0) {
-    state.charIndex = 0;
-  } else {
-    const previousLineLength = charsInLine(action.lines, state.lineIndex - 1);
-    state.lineIndex--;
-    state.charIndex = Math.min(previousLineLength, state.charIndex);
-  }
-
-  return resetOffsets(state);
+const moveUp = (state, action) => {
+  state.caret = caret.moveUp(state.caret, action);
+  return updateLTR(resetAnchor(state));
 };
 
-const moveDownCursor = (state, action) => {
-  const actionLines = action.lines;
-
-  if (state.lineIndex === actionLines.length - 1) {
-    state.charIndex = charsInLine(actionLines, actionLines.length - 1);
-  } else {
-    const nextLineLength = charsInLine(actionLines, state.lineIndex + 1);
-    state.lineIndex++;
-    state.charIndex = Math.min(nextLineLength, state.charIndex);
-  }
-
-  return resetOffsets(state);
+const moveDown = (state, action) => {
+  state.caret = caret.moveDown(state.caret, action);
+  return updateLTR(resetAnchor(state));
 };
 
-const moveLeftCursor = (state, action) => {
-  if (state.charIndex > 0) {
-    state.charIndex--;
-  } else if (state.lineIndex > 0) {
-    const previousLineLength = charsInLine(action.lines, state.lineIndex - 1);
-    state.lineIndex--;
-    state.charIndex = previousLineLength;
-  }
-
-  return resetOffsets(state);
+const moveLeft = (state, action) => {
+  state.caret = caret.moveLeft(state.caret, action);
+  return updateLTR(resetAnchor(state));
 };
 
-const moveRightCursor = (state, action) => {
-  const actionLines = action.lines;
-  const currentLineLength = charsInLine(actionLines, state.lineIndex);
+const moveRight = (state, action) => {
+  state.caret = caret.moveRight(state.caret, action);
+  return updateLTR(resetAnchor(state));
+};
 
-  if (state.charIndex < currentLineLength) {
-    state.charIndex++;
-  } else if (state.lineIndex < actionLines.length - 1) {
-    state.lineIndex++;
-    state.charIndex = 0;
-  }
+const selectUp = (state, action) => {
+  state.caret = caret.moveUp(state.caret, action);
+  return updateLTR(state);
+};
 
-  return resetOffsets(state);
+const selectDown = (state, action) => {
+  state.caret = caret.moveDown(state.caret, action);
+  return updateLTR(state);
+};
+
+const selectLeft = (state, action) => {
+  state.caret = caret.moveLeft(state.caret, action);
+  return updateLTR(state);
+};
+
+const selectRight = (state, action) => {
+  state.caret = caret.moveRight(state.caret, action);
+  return updateLTR(state);
 };
 
 const editLine = (state, action) => {
   const actionLines = action.lines;
 
   if (actionLines.length === 1) {
-    state.endOffset = state.startOffset + actionLines[0].length;
-    state.charIndex = state.endOffset;
+    state.caret.charIndex =
+      (state.ltr ? state.anchor.charIndex : state.caret.charIndex) +
+      actionLines[0].length;
   } else {
-    state.lineIndex = state.lineIndex + actionLines.length - 1;
-    state.charIndex = actionLines[actionLines.length - 1].length;
+    state.caret.lineIndex = state.caret.lineIndex + actionLines.length - 1;
+    state.caret.charIndex = actionLines[actionLines.length - 1].length;
 
-    state = resetOffsets(state);
+    state = resetAnchor(state);
   }
-
-  return state;
+  return updateLTR(resetAnchor(state));
 };
 
 const backspace = (state, action) => {
-  return moveLeftCursor(state, action);
+  if (
+    state.caret.lineIndex === state.anchor.lineIndex &&
+    state.caret.charIndex === state.anchor.charIndex
+  )
+    return moveLeft(state, action);
+
+  if (state.ltr) {
+    state.caret.lineIndex = state.anchor.lineIndex;
+    state.caret.charIndex = state.anchor.charIndex;
+  }
+
+  return updateLTR(resetAnchor(state));
+};
+
+const del = (state, action) => {
+  if (
+    state.caret.lineIndex === state.anchor.lineIndex &&
+    state.caret.charIndex === state.anchor.charIndex
+  )
+    return state;
+  console.log(state.ltr);
+  if (!state.ltr) {
+    state.caret.lineIndex = state.anchor.lineIndex;
+    state.caret.charIndex = state.anchor.charIndex;
+  }
+
+  return updateLTR(resetAnchor(state));
 };
 
 const getIndex = (chars, x) => {
@@ -113,9 +132,13 @@ const getIndex = (chars, x) => {
 };
 
 const lineClicked = (state, action) => {
-  state.lineIndex = Math.floor(action.y / action.charSize.lineHeightInPixels);
-  let line = action.lines[state.lineIndex].value;
-  state.charIndex = getIndex(
+  state.caret.lineIndex = Math.floor(
+    action.y / action.charSize.lineHeightInPixels
+  );
+
+  let line = action.lines[state.caret.lineIndex].value;
+
+  state.caret.charIndex = getIndex(
     line.split("").reduce((chars, char) => {
       chars.push({
         char: char,
@@ -129,23 +152,33 @@ const lineClicked = (state, action) => {
     action.x
   );
 
-  return resetOffsets(state);
+  return updateLTR(resetAnchor(state));
 };
 
 export default createReducer(
   {
-    lineIndex: 0,
-    charIndex: 0,
-    startOffset: 0,
-    endOffset: 0
+    caret: {
+      lineIndex: 0,
+      charIndex: 0
+    },
+    anchor: {
+      lineIndex: 0,
+      charIndex: 0
+    },
+    ltr: true
   },
   fromPairs([
-    [constants.EDITOR_MOVE_UP_CURSOR, moveUpCursor],
-    [constants.EDITOR_MOVE_DOWN_CURSOR, moveDownCursor],
-    [constants.EDITOR_MOVE_LEFT_CURSOR, moveLeftCursor],
-    [constants.EDITOR_MOVE_RIGHT_CURSOR, moveRightCursor],
+    [constants.EDITOR_MOVE_UP_CURSOR, moveUp],
+    [constants.EDITOR_MOVE_DOWN_CURSOR, moveDown],
+    [constants.EDITOR_MOVE_LEFT_CURSOR, moveLeft],
+    [constants.EDITOR_MOVE_RIGHT_CURSOR, moveRight],
+    [constants.EDITOR_SELECT_UP, selectUp],
+    [constants.EDITOR_SELECT_DOWN, selectDown],
+    [constants.EDITOR_SELECT_LEFT, selectLeft],
+    [constants.EDITOR_SELECT_RIGHT, selectRight],
     [constants.EDITOR_LINE_CHANGED, editLine],
     [constants.EDITOR_BACKSPACE, backspace],
+    [constants.EDITOR_DEL, del],
     ["EDITOR_LINE_CLICKED", lineClicked]
   ])
 );
