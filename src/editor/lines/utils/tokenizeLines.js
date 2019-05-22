@@ -1,17 +1,14 @@
 import { cssGrammar, grammarRegistry } from "../../utils/grammars";
 import buildBranch from "./buildBranch";
-import newLine from "../../keyboard/reducers/utils/newLine";
 
 const tokenizeLines = (result, inputLine, index, lines) => {
-  // if (inputLine.syntax) {
-  //   result.push({
-  //     ...inputLine
-  //   });
-  //   return result;
-  // }
-
   let { finalRuleStack: ruleStack, finalScopes: scopes } =
-    index === 0 ? newLine() : result[index - 1];
+    index === 0
+      ? {
+          finalRuleStack: null,
+          finalScopes: []
+        }
+      : result[index - 1];
   let initialRuleStack = ruleStack === null ? null : [...ruleStack];
   let finalRuleStack = ruleStack === null ? null : [...ruleStack];
   let initialScopes = [...scopes];

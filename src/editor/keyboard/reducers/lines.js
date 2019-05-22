@@ -1,7 +1,11 @@
 import * as constants from "../constants";
 import fromPairs from "lodash/fromPairs";
 import { createReducer } from "../../utils/reducerUtils";
-import newLine from "./utils/newLine";
+
+const newLine = (value = "") => ({
+  value: value,
+  syntax: false
+});
 
 const editLine = (state, action) => {
   const lines = action.lines;
