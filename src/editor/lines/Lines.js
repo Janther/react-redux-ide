@@ -20,12 +20,7 @@ export const Lines = ({
   const tokenizedLines = lines.reduce(tokenizeLines, []);
 
   return (
-    <StyledLines
-      className={classNames("lines")}
-      onClick={e => {
-        lineClick(e);
-      }}
-    >
+    <StyledLines className={classNames("lines")} onClick={e => lineClick(e)}>
       <StyledLinesIsolation>
         {invalidCharSize && <DummyLine updateCharSize={updateCharSize} />}
         {tokenizedLines.map((line, index) => (
@@ -43,7 +38,7 @@ export const Lines = ({
 
 Lines.propTypes = {
   lines: PropTypes.array.isRequired,
-  cursorLine: PropTypes.number.isRequired,
+  cursorLine: PropTypes.number,
   invalidCharSize: PropTypes.bool.isRequired,
   lineHeightInPixels: PropTypes.number,
   updateCharSize: PropTypes.func.isRequired

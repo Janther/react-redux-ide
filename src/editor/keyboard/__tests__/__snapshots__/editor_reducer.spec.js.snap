@@ -1,3 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR down 1`] = `
 Object {
   "charIndex": 1,
