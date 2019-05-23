@@ -2,93 +2,154 @@
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR down 1`] = `
 Object {
-  "charIndex": 1,
-  "endOffset": 1,
-  "lineIndex": 1,
-  "startOffset": 1,
+  "anchor": Object {
+    "charIndex": 1,
+    "lineIndex": 1,
+  },
+  "caret": Object {
+    "charIndex": 1,
+    "lineIndex": 1,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR down 2`] = `
 Object {
-  "charIndex": 0,
-  "endOffset": 0,
-  "lineIndex": 1,
-  "startOffset": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 1,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 1,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR left 1`] = `
 Object {
-  "charIndex": 0,
-  "lineIndex": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR left 2`] = `
 Object {
-  "charIndex": 2,
-  "lineIndex": 0,
+  "anchor": Object {
+    "charIndex": 2,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 2,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR right 1`] = `
 Object {
-  "charIndex": 0,
-  "lineIndex": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR up 1`] = `
 Object {
-  "charIndex": 0,
-  "endOffset": 0,
-  "lineIndex": 0,
-  "startOffset": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR up 2`] = `
 Object {
-  "charIndex": 0,
-  "endOffset": 0,
-  "lineIndex": 0,
-  "startOffset": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR up 3`] = `
 Object {
-  "charIndex": 0,
-  "endOffset": 0,
-  "lineIndex": 0,
-  "startOffset": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR up 4`] = `
 Object {
-  "charIndex": 0,
-  "endOffset": 0,
-  "lineIndex": 1,
-  "startOffset": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 1,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 1,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should handle EDITOR_MOVE_CURSOR up 5`] = `
 Object {
-  "charIndex": 1,
-  "endOffset": 1,
-  "lineIndex": 1,
-  "startOffset": 1,
+  "anchor": Object {
+    "charIndex": 1,
+    "lineIndex": 1,
+  },
+  "caret": Object {
+    "charIndex": 1,
+    "lineIndex": 1,
+  },
+  "ltr": true,
 }
 `;
 
 exports[`cursor reducer should return the initial state 1`] = `
 Object {
-  "charIndex": 0,
-  "endOffset": 0,
-  "lineIndex": 0,
-  "startOffset": 0,
+  "anchor": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "caret": Object {
+    "charIndex": 0,
+    "lineIndex": 0,
+  },
+  "ltr": true,
 }
 `;
