@@ -7,7 +7,7 @@ import StyledLines from "./components/StyledLines";
 import StyledLinesIsolation from "./components/StyledLinesIsolation";
 import classNames from "classnames";
 import { updateCharSize, lineClick } from "./actions";
-import tokenizeLines from "./utils/tokenizeLines";
+import tokenizedLinesSelector from "./utils/tokenizeLines";
 
 export const Lines = ({
   lines,
@@ -16,25 +16,21 @@ export const Lines = ({
   lineHeightInPixels,
   updateCharSize,
   lineClick
-}) => {
-  const tokenizedLines = lines.reduce(tokenizeLines, []);
-
-  return (
-    <StyledLines className={classNames("lines")} onClick={e => lineClick(e)}>
-      <StyledLinesIsolation>
-        {invalidCharSize && <DummyLine updateCharSize={updateCharSize} />}
-        {tokenizedLines.map((line, index) => (
-          <Line
-            line={line}
-            isCursorLine={cursorLine === index}
-            lineHeight={lineHeightInPixels}
-            key={index}
-          />
-        ))}
-      </StyledLinesIsolation>
-    </StyledLines>
-  );
-};
+}) => (
+  <StyledLines className={classNames("lines")} onClick={e => lineClick(e)}>
+    <StyledLinesIsolation>
+      {invalidCharSize && <DummyLine updateCharSize={updateCharSize} />}
+      {lines.map((line, index) => (
+        <Line
+          line={line}
+          isCursorLine={cursorLine === index}
+          lineHeight={lineHeightInPixels}
+          key={index}
+        />
+      ))}
+    </StyledLinesIsolation>
+  </StyledLines>
+);
 
 Lines.propTypes = {
   lines: PropTypes.array.isRequired,
@@ -45,7 +41,7 @@ Lines.propTypes = {
 };
 
 const mapStateToProps = ({ janther: editor }) => ({
-  lines: editor.keyboard.lines,
+  lines: tokenizedLinesSelector(editor),
   cursorLine: editor.keyboard.cursor.caret.lineIndex,
   invalidCharSize: editor.lines.invalidCharSize,
   lineHeightInPixels: editor.lines.charSize.lineHeightInPixels
