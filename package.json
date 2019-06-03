@@ -25,7 +25,7 @@
     "redux-devtools": "^3.5.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.3.0"
   },
   "scripts": {
     "build-css": "lessc src/App.less src/App.css",
