@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "cson-loader": "^0.1.0",
     "first-mate": "https://github.com/Janther/first-mate.git#prepublished",
-    "immer": "^3.1.1",
+    "immer": "^8.0.1",
     "language-css": "https://github.com/atom/language-css.git#134444febae6030feb8c76647b9a46e534960aad",
     "lodash": "^4.17.11",
     "mousetrap": "^1.6.3",
