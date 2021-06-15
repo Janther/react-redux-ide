@@ -13,7 +13,7 @@
     "first-mate": "https://github.com/Janther/first-mate.git#prepublished",
     "immer": "^8.0.1",
     "language-css": "https://github.com/atom/language-css.git#134444febae6030feb8c76647b9a46e534960aad",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "mousetrap": "^1.6.3",
     "onigurumajs": "^1.0.0",
     "prop-types": "^15.7.2",
